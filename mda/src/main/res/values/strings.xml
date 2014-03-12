@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MDA TimeTable</string>
+
+    <!-- Choose -->
+    <string name="choose_from_cracow_button">DEPARTURES from Cracow</string>
+    <string name="choose_to_cracow_button">DEPARTURES to Cracow</string>
+    <string name="choose_from_nowysacz_button">DEPARTURES from Nowy Sącz</string>
+    <string name="choose_to_nowysacz_button">DEPARTURES to Nowy Sącz</string>
+    <string name="choose_city_hint">Start typing to search the city</string>
+    <string name="choose_city_title">Choose city</string>
+    <string name="choose_date_title">Choose time and date</string>
+    <string name="choose_date_hint">choose date</string>
+    <string name="choose_time_hint">choose time</string>
+    <string name="choose_timetable_title">timetable</string>
+
+    <!-- TimeTable -->
+    <string name="timetable_start_title">Departure</string>
+    <string name="timetable_destination_title">Arrival</string>
+    <string name="timetable_departure_title">Departure time</string>
+    <string name="timetable_arrival_title">Arrival time</string>
+    <string name="timetable_length_title">Travel time</string>
+    <string name="timetable_price_title">Price</string>
+    <string name="timetable_tickets_title">Tickets</string>
+
+</resources>

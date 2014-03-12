@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/three_dips"
+        android:paddingRight="@dimen/three_dips"
+        android:paddingTop="@dimen/three_dips"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/cracow_choose_from"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top|center_horizontal"
+            android:layout_margin="@dimen/three_dips"
+            android:drawableTop="@drawable/krakow"
+            android:drawablePadding="@dimen/five_dips"
+            android:paddingTop="@dimen/twenty_dips"
+            android:paddingBottom="@dimen/fourty_dips"
+            android:text="@string/choose_from_cracow_button" />
+
+        <Button
+            android:id="@+id/cracow_choose_to"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top|center_horizontal"
+            android:layout_margin="@dimen/three_dips"
+            android:drawableTop="@drawable/krakow"
+            android:drawablePadding="@dimen/five_dips"
+            android:paddingTop="@dimen/twenty_dips"
+            android:paddingBottom="@dimen/fourty_dips"
+            android:text="@string/choose_to_cracow_button" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/three_dips"
+        android:paddingBottom="@dimen/three_dips"
+        android:paddingRight="@dimen/three_dips"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/nowysacz_choose_from"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top|center_horizontal"
+            android:drawableTop="@drawable/nowy_sacz"
+            android:drawablePadding="@dimen/five_dips"
+            android:layout_margin="@dimen/three_dips"
+            android:paddingTop="@dimen/twenty_dips"
+            android:paddingBottom="@dimen/fourty_dips"
+            android:text="@string/choose_from_nowysacz_button" />
+
+        <Button
+            android:id="@+id/nowysacz_choose_to"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top|center_horizontal"
+            android:drawableTop="@drawable/nowy_sacz"
+            android:drawablePadding="@dimen/five_dips"
+            android:layout_margin="@dimen/three_dips"
+            android:paddingTop="@dimen/twenty_dips"
+            android:paddingBottom="@dimen/fourty_dips"
+            android:text="@string/choose_to_nowysacz_button" />
+
+    </LinearLayout>
+
+</LinearLayout>

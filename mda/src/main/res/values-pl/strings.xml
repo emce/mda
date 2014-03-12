@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Rozkład Jazdy MDA</string>
+
+    <!-- Choose -->
+    <string name="choose_from_cracow_button">ODJAZDY z Krakowa</string>
+    <string name="choose_to_cracow_button">ODJAZDY do Krakowa</string>
+    <string name="choose_from_nowysacz_button">ODJAZDY z Nowego Sącza</string>
+    <string name="choose_to_nowysacz_button">ODJAZDY do Nowego Sącza</string>
+    <string name="choose_city_hint">Zacznij wprowadzać tekst, aby wyszukać miasto</string>
+    <string name="choose_city_title">Wybierz miasto</string>
+    <string name="choose_date_title">Wybierz godzinę i dzień</string>
+    <string name="choose_date_hint">wybierz dzień</string>
+    <string name="choose_time_hint">wybierz godzinę</string>
+    <string name="choose_timetable_title">rozkład jazdy</string>
+
+</resources>
