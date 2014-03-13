@@ -1,24 +1,19 @@
 package mobi.cwiklinski.mda.fragment;
 
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.BaseActivity;
-import mobi.cwiklinski.mda.util.TypefaceManager;
 import mobi.cwiklinski.mda.util.UserPreferences;
 import mobi.cwiklinski.typiconic.TypiconicDrawable;
 import mobi.cwiklinski.typiconic.Typiconify;
 
-abstract public class BaseFragment extends Fragment {
+public class BaseListFragment extends ListFragment {
 
     protected int mMenuPosition = 0;
-
-    public TypefaceManager getTypefaceManager() {
-        return getBaseActivity().getTypefaceManager();
-    }
 
     public BaseActivity getBaseActivity() {
         return (BaseActivity) getActivity();

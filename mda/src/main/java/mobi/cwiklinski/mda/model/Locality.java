@@ -1,7 +1,10 @@
 package mobi.cwiklinski.mda.model;
 
+import android.content.res.Resources;
+
 import com.google.gson.annotations.SerializedName;
 
+import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.util.Constant;
 
 public class Locality extends Model {
@@ -62,5 +65,12 @@ public class Locality extends Model {
             ", województwo: " + getProvince() +
             ", powiat: " + getDistrict() +
             ", gmina: " + getCommunity();
+    }
+
+    public String toLocalizedString(Resources res) {
+        return getName() +
+            ", " + res.getString(R.string.choose_province) + ": " + getProvince() +
+            ", " + res.getString(R.string.choose_district) + ": " + getDistrict() +
+            ", " + res.getString(R.string.choose_community) + ": " + getCommunity();
     }
 }

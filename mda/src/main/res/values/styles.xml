@@ -40,9 +40,9 @@
     <style name="SectionHeader" parent="android:Widget.TextView">
         <item name="android:textAllCaps">true</item>
         <item name="android:drawableBottom">@drawable/section_header</item>
-        <item name="android:drawablePadding">@dimen/five_dips</item>
+        <item name="android:drawablePadding">@dimen/three_dips</item>
         <item name="android:layout_marginTop">@dimen/ten_dips</item>
-        <item name="android:layout_marginBottom">@dimen/ten_dips</item>
+        <item name="android:layout_marginBottom">@dimen/five_dips</item>
         <item name="android:paddingLeft">@dimen/ten_dips</item>
         <item name="android:textColor">@color/green</item>
         <item name="android:textSize">@dimen/text_fourteen</item>

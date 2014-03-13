@@ -1,4 +1,6 @@
 package mobi.cwiklinski.mda.model;
 
-abstract public class Model {
+import java.io.Serializable;
+
+abstract public class Model implements Serializable {
 }

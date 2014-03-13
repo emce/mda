@@ -8,6 +8,19 @@ public interface Constant {
     String LOCALITY_COMMUNITY = "gmina";
 
     String EXTRA_DESTINATION = "destination";
+    String EXTRA_LOCALITY = "locality";
+    String EXTRA_TIMETABLE_LIST = "timetable_list";
 
     String URL_MAIN = "http://rozklady.mda.malopolska.pl";
+
+    enum Destination {
+        FROM_CRACOW,
+        TO_CRACOW,
+        FROM_NOWY_SACZ,
+        TO_NOWY_SACZ;
+
+        public int getId() {
+            return ordinal();
+        }
+    }
 }

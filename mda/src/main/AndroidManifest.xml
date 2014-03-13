@@ -46,6 +46,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.SearchActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activity.DateActivity"
+            android:parentActivityName=".activity.SearchActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activity.TableActivity"
+            android:parentActivityName=".activity.DateActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

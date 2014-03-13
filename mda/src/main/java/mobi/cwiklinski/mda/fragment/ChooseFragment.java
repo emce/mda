@@ -1,5 +1,6 @@
 package mobi.cwiklinski.mda.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import mobi.cwiklinski.mda.R;
-import mobi.cwiklinski.mda.activity.MainActivity;
+import mobi.cwiklinski.mda.activity.SearchActivity;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
 import mobi.cwiklinski.mda.util.TypefaceManager;
@@ -24,7 +25,10 @@ public class ChooseFragment extends BaseFragment {
     private CheckConnectionTask mTask;
 
     public static ChooseFragment newInstance() {
-        return new ChooseFragment();
+        ChooseFragment fragment = new ChooseFragment();
+        fragment.setRetainInstance(false);
+        fragment.setHasOptionsMenu(true);
+        return fragment;
     }
 
     @Override
@@ -55,15 +59,15 @@ public class ChooseFragment extends BaseFragment {
         mFromCracowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBaseActivity().changeFragment(MainActivity.MainFragments.FRAGMENT_SEARCH,
-                    createArguments(SearchFragment.Destination.FROM_CRACOW));
+                getPreferences().saveDestination(Constant.Destination.FROM_CRACOW);
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
         mToCracowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBaseActivity().changeFragment(MainActivity.MainFragments.FRAGMENT_SEARCH,
-                    createArguments(SearchFragment.Destination.TO_CRACOW));
+                getPreferences().saveDestination(Constant.Destination.TO_CRACOW);
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
         mFromNowySaczButton = (Button) view.findViewById(R.id.nowysacz_choose_from);
@@ -71,15 +75,15 @@ public class ChooseFragment extends BaseFragment {
         mFromNowySaczButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBaseActivity().changeFragment(MainActivity.MainFragments.FRAGMENT_SEARCH,
-                    createArguments(SearchFragment.Destination.FROM_NOWY_SACZ));
+                getPreferences().saveDestination(Constant.Destination.FROM_NOWY_SACZ);
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
         mToNowySaczButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBaseActivity().changeFragment(MainActivity.MainFragments.FRAGMENT_SEARCH,
-                    createArguments(SearchFragment.Destination.TO_NOWY_SACZ));
+                getPreferences().saveDestination(Constant.Destination.TO_NOWY_SACZ);
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
     }
@@ -87,17 +91,15 @@ public class ChooseFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getBaseActivity().setMainTitle(R.string.app_name);
+        getBaseActivity().setSubTitle(R.string.choose_destination_title);
         mFromCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mToCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mFromNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mToNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
     }
 
-    private Bundle createArguments(SearchFragment.Destination destination) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constant.EXTRA_DESTINATION, destination);
-        return bundle;
-    }
+
 
     private class CheckConnectionTask extends AsyncTask<Void, Void, Void> {
 

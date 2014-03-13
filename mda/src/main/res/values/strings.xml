@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">MDA TimeTable</string>
+    <string name="next">Next</string>
+    <string name="no_results">No results</string>
+    <string name="no_data">no data</string>
 
     <!-- Choose -->
     <string name="choose_from_cracow_button">DEPARTURES from Cracow</string>
@@ -9,7 +12,12 @@
     <string name="choose_from_nowysacz_button">DEPARTURES from Nowy Sącz</string>
     <string name="choose_to_nowysacz_button">DEPARTURES to Nowy Sącz</string>
     <string name="choose_city_hint">Start typing to search the city</string>
+    <string name="choose_destination_title">Choose destination</string>
     <string name="choose_city_title">Choose city</string>
+    <string name="choose_city">City</string>
+    <string name="choose_province">Province</string>
+    <string name="choose_district">District</string>
+    <string name="choose_community">Community</string>
     <string name="choose_date_title">Choose time and date</string>
     <string name="choose_date_hint">choose date</string>
     <string name="choose_time_hint">choose time</string>

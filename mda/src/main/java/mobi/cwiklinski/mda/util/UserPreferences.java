@@ -4,13 +4,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
+
+import mobi.cwiklinski.mda.model.Locality;
+
 public class UserPreferences {
     private Context mContext;
     private SharedPreferences preferences;
+    private Gson mGson;
     public static final String KEY_PHPSESSID = "php_session";
+    public static final String KEY_DESTINATION = "destination";
+    public static final String KEY_LOCALITY = "locality";
+    public static final String KEY_DATE = "date";
 
     public UserPreferences(Context context) {
         mContext = context;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        mGson = gsonBuilder.create();
         preferences = getDefaultSharedPreferences();
     }
 
@@ -28,6 +42,14 @@ public class UserPreferences {
 
     public String get(String key, String defaultString) {
         return preferences.getString(key, defaultString);
+    }
+
+    public String getString(String key, String defaultValue) {
+        try {
+            return preferences.getString(key, defaultValue);
+        } catch (ClassCastException e) {
+            return defaultValue;
+        }
     }
 
     public int getInt(String key, int defaultValue) {
@@ -90,11 +112,54 @@ public class UserPreferences {
         editor.commit();
     }
 
+    public void clearApp() {
+        SharedPreferences.Editor editor = getSharedPreferencesEditor();
+        editor.remove(KEY_DATE);
+        editor.remove(KEY_DESTINATION);
+        editor.remove(KEY_LOCALITY);
+        editor.commit();
+    }
+
     public boolean exists(String field) {
         return preferences.contains(field);
     }
 
     public String getPhpSessionId() {
         return preferences.getString(KEY_PHPSESSID, "");
+    }
+
+    public void saveDestination(Constant.Destination destination) {
+        saveField(KEY_DESTINATION, destination.getId());
+    }
+
+    public Constant.Destination getDestination() {
+        if (exists(KEY_DESTINATION)) {
+            return Constant.Destination.values()[getInt(KEY_DESTINATION, -1)];
+        }
+        return null;
+    }
+
+    public void saveLocality(Locality locality) {
+        saveField(KEY_LOCALITY, mGson.toJson(locality));
+    }
+
+    public Locality getLocality() {
+        if (exists(KEY_LOCALITY)) {
+            return mGson.fromJson(getString(KEY_LOCALITY, ""), Locality.class);
+        }
+        return null;
+    }
+
+    public void saveDate(DateTime dateTime) {
+        saveField(KEY_DATE, dateTime.getMillis());
+    }
+
+    public DateTime getDate() {
+        if (exists(KEY_DATE)) {
+            MutableDateTime dateTime = new MutableDateTime();
+            dateTime.setMillis(getLong(KEY_DATE, 0));
+            return dateTime.toDateTime();
+        }
+        return null;
     }
 }
