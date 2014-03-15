@@ -11,9 +11,7 @@ public class TypefaceManager {
 
     private TypefaceManager(Context context) {
         mTypefaceList.put(FontFace.ROBOTO_NORMAL.getId(), createTypeface(context, FontFace.ROBOTO_NORMAL));
-        mTypefaceList.put(FontFace.ROBOTO_ITALIC.getId(), createTypeface(context, FontFace.ROBOTO_ITALIC));
         mTypefaceList.put(FontFace.ROBOTO_BOLD.getId(), createTypeface(context, FontFace.ROBOTO_BOLD));
-        mTypefaceList.put(FontFace.ROBOTO_BOLD_ITALIC.getId(), createTypeface(context, FontFace.ROBOTO_BOLD_ITALIC));
     }
 
     public static TypefaceManager getInstance(Context context) {
@@ -29,14 +27,8 @@ public class TypefaceManager {
             case ROBOTO_NORMAL:
                 typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Regular.ttf");
                 break;
-            case ROBOTO_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Italic.ttf");
-                break;
             case ROBOTO_BOLD:
                 typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Bold.ttf");
-                break;
-            case ROBOTO_BOLD_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-BoldItalic.ttf");
                 break;
         }
         return typeface;
@@ -48,9 +40,7 @@ public class TypefaceManager {
 
     public enum FontFace {
         ROBOTO_NORMAL(0),
-        ROBOTO_BOLD(1),
-        ROBOTO_ITALIC(2),
-        ROBOTO_BOLD_ITALIC(3);
+        ROBOTO_BOLD(1);
 
         private int id;
 

@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 
 import mobi.cwiklinski.mda.model.Locality;
+import mobi.cwiklinski.mda.model.TimeTable;
 
 public class UserPreferences {
     private Context mContext;
@@ -20,6 +21,7 @@ public class UserPreferences {
     public static final String KEY_DESTINATION = "destination";
     public static final String KEY_LOCALITY = "locality";
     public static final String KEY_DATE = "date";
+    public static final String KEY_TIMETABLE = "timetable";
 
     public UserPreferences(Context context) {
         mContext = context;
@@ -159,6 +161,17 @@ public class UserPreferences {
             MutableDateTime dateTime = new MutableDateTime();
             dateTime.setMillis(getLong(KEY_DATE, 0));
             return dateTime.toDateTime();
+        }
+        return null;
+    }
+
+    public void saveTimetable(TimeTable timeTable) {
+        saveField(KEY_TIMETABLE, mGson.toJson(timeTable));
+    }
+
+    public TimeTable getTimetable() {
+        if (exists(KEY_TIMETABLE)) {
+            return mGson.fromJson(getString(KEY_TIMETABLE, ""), TimeTable.class);
         }
         return null;
     }

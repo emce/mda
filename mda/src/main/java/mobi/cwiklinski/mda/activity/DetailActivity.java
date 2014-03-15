@@ -4,24 +4,20 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import mobi.cwiklinski.mda.R;
-import mobi.cwiklinski.mda.fragment.ChooseFragment;
+import mobi.cwiklinski.mda.fragment.DetailFragment;
 import mobi.cwiklinski.mda.util.GoogleAnalyticsHelper;
 
-
-public class MainActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPreferences().clearApp();
         GoogleAnalyticsHelper.activityStart(this);
         if (savedInstanceState == null) {
-            mTask = new CheckConnectionTask();
-            mTask.execute();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
-            ChooseFragment chooseFragment = ChooseFragment.newInstance();
-            ft.replace(R.id.fragment_container, chooseFragment, ChooseFragment.FRAGMENT_TAG);
+            DetailFragment detailFragment = DetailFragment.newInstance(getIntent());
+            ft.replace(R.id.fragment_container, detailFragment, DetailFragment.FRAGMENT_TAG);
             ft.commit();
         }
     }

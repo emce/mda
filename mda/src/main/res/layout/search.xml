@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_auto"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SectionHeader"

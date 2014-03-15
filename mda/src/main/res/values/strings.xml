@@ -5,12 +5,18 @@
     <string name="next">Next</string>
     <string name="no_results">No results</string>
     <string name="no_data">no data</string>
+    <string name="connection_error">There is connection error. Please try again.</string>
+    <string name="no_required_data">Missing required data!</string>
+    <string name="at">at</string>
+    <string name="carrier">Carrier</string>
+    <string name="incorrect_date">Chosen date must be later</string>
+
 
     <!-- Choose -->
-    <string name="choose_from_cracow_button">DEPARTURES from Cracow</string>
-    <string name="choose_to_cracow_button">DEPARTURES to Cracow</string>
-    <string name="choose_from_nowysacz_button">DEPARTURES from Nowy Sącz</string>
-    <string name="choose_to_nowysacz_button">DEPARTURES to Nowy Sącz</string>
+    <string name="choose_from_cracow_button">DEPARTURES\nfrom Cracow</string>
+    <string name="choose_to_cracow_button">DEPARTURES\nto Cracow</string>
+    <string name="choose_from_nowysacz_button">DEPARTURES\nfrom Nowy Sącz</string>
+    <string name="choose_to_nowysacz_button">DEPARTURES\nto Nowy Sącz</string>
     <string name="choose_city_hint">Start typing to search the city</string>
     <string name="choose_destination_title">Choose destination</string>
     <string name="choose_city_title">Choose city</string>
@@ -21,7 +27,6 @@
     <string name="choose_date_title">Choose time and date</string>
     <string name="choose_date_hint">choose date</string>
     <string name="choose_time_hint">choose time</string>
-    <string name="choose_timetable_title">timetable</string>
 
     <!-- TimeTable -->
     <string name="timetable_start_title">Departure</string>
@@ -31,5 +36,13 @@
     <string name="timetable_length_title">Travel time</string>
     <string name="timetable_price_title">Price</string>
     <string name="timetable_tickets_title">Tickets</string>
+
+    <!-- Stage -->
+    <string name="detail_title">Journey details</string>
+    <string name="stage_destination_title">Destination</string>
+    <string name="stage_station_title">Station</string>
+    <string name="stage_arrival_title">Arrival time</string>
+    <string name="stage_price_title">Price</string>
+
 
 </resources>

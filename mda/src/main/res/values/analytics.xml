@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Replace placeholder ID with your tracking ID -->
+    <string name="ga_trackingId">UA-49029742-1</string>
+
+    <!-- Enable Activity tracking -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- Enable debug -->
+    <bool name="ga_debug">true</bool>
+
+    <!--Enable automatic exception tracking-->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <!-- The screen names that will appear in your reporting -->
+    <string name="mobi.cwiklinski.mda.activity.MainActivity">MainActivity</string>
+    <string name="mobi.cwiklinski.mda.activity.DateActivity">DateActivity</string>
+    <string name="mobi.cwiklinski.mda.activity.DetailActivity">DetailActivity</string>
+    <string name="mobi.cwiklinski.mda.activity.SearchActivity">SearchActivity</string>
+    <string name="mobi.cwiklinski.mda.activity.TableActivity">TableActivity</string>
+
+    <!--
+    The inverval of time after all the collected data
+    should be sent to the server, in seconds.
+    -->
+    <integer name="ga_dispatchPeriod">30</integer>
+</resources>

@@ -1,7 +1,6 @@
 package mobi.cwiklinski.mda.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,8 @@ import android.widget.Button;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.SearchActivity;
-import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
 import mobi.cwiklinski.mda.util.TypefaceManager;
-import mobi.cwiklinski.mda.util.UserPreferences;
 
 public class ChooseFragment extends BaseFragment {
 
@@ -22,28 +19,12 @@ public class ChooseFragment extends BaseFragment {
     private Button mToCracowButton;
     private Button mFromNowySaczButton;
     private Button mToNowySaczButton;
-    private CheckConnectionTask mTask;
 
     public static ChooseFragment newInstance() {
         ChooseFragment fragment = new ChooseFragment();
         fragment.setRetainInstance(false);
         fragment.setHasOptionsMenu(true);
         return fragment;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mTask != null) {
-            mTask.cancel(true);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mTask = new CheckConnectionTask();
-        mTask.execute();
     }
 
     @Override
@@ -97,21 +78,5 @@ public class ChooseFragment extends BaseFragment {
         mToCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mFromNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mToNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-    }
-
-
-
-    private class CheckConnectionTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            HttpUtil util = HttpUtil.getInstance();
-            String cookie = util
-                .setUrl(Constant.URL_MAIN)
-                .connect()
-                .getCookie();
-            getPreferences().saveField(UserPreferences.KEY_PHPSESSID, cookie);
-            return null;
-        }
     }
 }

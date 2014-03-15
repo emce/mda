@@ -69,7 +69,7 @@ public class HttpUtil {
         return this;
     }
 
-    public HttpUtil connect() {
+    public HttpUtil connect() throws HttpRequest.HttpRequestException {
         HttpRequest request;
         switch (mMethod) {
             case POST:
@@ -82,6 +82,8 @@ public class HttpUtil {
                 request = HttpRequest.get(mUrl);
                 break;
         }
+        request.connectTimeout(5000);
+        request.readTimeout(10000);
         request.header(HttpRequest.HEADER_ACCEPT, "*/*");
         request.header("API-Version", "1");
         request.header("From", Build.PRODUCT + " " + Build.MODEL);
@@ -117,7 +119,7 @@ public class HttpUtil {
         return this;
     }
 
-    public <T> List<T> getObjects(TypeToken token) {
+    public <T> ArrayList<T> getObjects(TypeToken token) {
         if (mRawResponse.length() > 2) {
             return mGson.fromJson(mRawResponse, token.getType());
         }
@@ -146,6 +148,10 @@ public class HttpUtil {
 
     public JSONObject getJSONObject() {
         return mJSONObject;
+    }
+
+    public String getResponse() {
+        return mRawResponse;
     }
 
     public String toString() {

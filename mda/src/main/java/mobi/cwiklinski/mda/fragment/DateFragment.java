@@ -10,9 +10,8 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
-
-import java.util.Calendar;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.TableActivity;
@@ -24,7 +23,6 @@ public class DateFragment extends BaseFragment {
     public static final String FRAGMENT_TAG = DateFragment.class.getSimpleName();
     private DatePicker mDatePicker;
     private TimePicker mTimePicker;
-    private Calendar mCalendar = Calendar.getInstance();
     private Locality mLocality;
     private Constant.Destination mDestination = Constant.Destination.FROM_CRACOW;
 
@@ -56,21 +54,22 @@ public class DateFragment extends BaseFragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validate()) {
-                    MutableDateTime dateTime = new MutableDateTime();
-                    dateTime.setYear(mDatePicker.getYear());
-                    dateTime.setMonthOfYear(mDatePicker.getMonth());
-                    dateTime.setDayOfMonth(mDatePicker.getDayOfMonth());
-                    dateTime.setHourOfDay(mTimePicker.getCurrentHour());
-                    dateTime.setMinuteOfHour(mTimePicker.getCurrentMinute());
-                    getPreferences().saveDate(new MutableDateTime().toDateTime());
+                MutableDateTime dateTime = new DateTime().toMutableDateTime();
+                dateTime.setYear(mDatePicker.getYear());
+                dateTime.setMonthOfYear(mDatePicker.getMonth() + 1);
+                dateTime.setDayOfMonth(mDatePicker.getDayOfMonth());
+                dateTime.setHourOfDay(mTimePicker.getCurrentHour());
+                dateTime.setMinuteOfHour(mTimePicker.getCurrentMinute());
+                if (dateTime.isAfterNow()) {
+                    getPreferences().saveDate(dateTime.toDateTime());
                     startActivity(new Intent(getActivity(), TableActivity.class));
                 } else {
-                    Toast.makeText(getActivity(), R.string.app_name, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.incorrect_date, Toast.LENGTH_LONG).show();
                 }
             }
         });
-        mDatePicker.setCalendarViewShown(false);
+        mDatePicker.setCalendarViewShown(true);
+        mDatePicker.setSpinnersShown(false);
         mTimePicker.setIs24HourView(true);
     }
 
@@ -96,20 +95,5 @@ public class DateFragment extends BaseFragment {
             getBaseActivity().setMainTitle(titleResource);
             getBaseActivity().setSubTitle(mLocality.toLocalizedString(getResources()));
         }
-    }
-
-    private boolean validate() {
-        boolean validated = true;
-        if (mDatePicker.getDayOfMonth() < mCalendar.get(Calendar.DAY_OF_MONTH)
-            && mDatePicker.getMonth() <= mCalendar.get(Calendar.MONTH)
-            && mDatePicker.getYear() <= mCalendar.get(Calendar.YEAR)) {
-            validated = false;
-        }
-        if (validated
-            && mTimePicker.getCurrentMinute() <= mCalendar.getMinimum(Calendar.MINUTE)
-            && mTimePicker.getCurrentHour() <= mCalendar.get(Calendar.HOUR)) {
-            validated = false;
-        }
-        return validated;
     }
 }

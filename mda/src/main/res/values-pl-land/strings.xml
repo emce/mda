@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Choose -->
+    <string name="choose_from_cracow_button">ODJAZDY z Krakowa</string>
+    <string name="choose_to_cracow_button">ODJAZDY do Krakowa</string>
+    <string name="choose_from_nowysacz_button">ODJAZDY z Nowego Sącza</string>
+    <string name="choose_to_nowysacz_button">ODJAZDY do Nowego Sącza</string>
+</resources>

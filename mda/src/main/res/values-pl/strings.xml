@@ -5,12 +5,17 @@
     <string name="next">Dalej</string>
     <string name="no_results">Brak wyników</string>
     <string name="no_data">b.d.</string>
+    <string name="connection_error">Wystąpił błąd połączenie. Spróbuj ponownie.</string>
+    <string name="no_required_data">Brak wymaganych danych!</string>
+    <string name="at">o</string>
+    <string name="carrier">Przewoźnik</string>
+    <string name="incorrect_date">Wybrana data musi być późniejsza</string>
 
     <!-- Choose -->
-    <string name="choose_from_cracow_button">ODJAZDY z Krakowa</string>
-    <string name="choose_to_cracow_button">ODJAZDY do Krakowa</string>
-    <string name="choose_from_nowysacz_button">ODJAZDY z Nowego Sącza</string>
-    <string name="choose_to_nowysacz_button">ODJAZDY do Nowego Sącza</string>
+    <string name="choose_from_cracow_button">ODJAZDY\nz Krakowa</string>
+    <string name="choose_to_cracow_button">ODJAZDY\ndo Krakowa</string>
+    <string name="choose_from_nowysacz_button">ODJAZDY\nz Nowego Sącza</string>
+    <string name="choose_to_nowysacz_button">ODJAZDY\ndo Nowego Sącza</string>
     <string name="choose_city_hint">Aby wyszukać, zacznij wprowadzać tekst</string>
     <string name="choose_destination_title">Wybierz trasę</string>
     <string name="choose_city_title">Wybierz miasto</string>
@@ -21,6 +26,21 @@
     <string name="choose_date_title">Wybierz godzinę i dzień</string>
     <string name="choose_date_hint">wybierz dzień</string>
     <string name="choose_time_hint">wybierz godzinę</string>
-    <string name="choose_timetable_title">rozkład jazdy</string>
+
+    <!-- TimeTable -->
+    <string name="timetable_start_title">Odjazd</string>
+    <string name="timetable_destination_title">Przyjazd</string>
+    <string name="timetable_departure_title">Godzina odjazdu</string>
+    <string name="timetable_arrival_title">Godzina przyjazdu</string>
+    <string name="timetable_length_title">Czas podróży</string>
+    <string name="timetable_price_title">Cena</string>
+    <string name="timetable_tickets_title">Bilety</string>
+
+    <!-- Stage -->
+    <string name="detail_title">Szczegóły kursu</string>
+    <string name="stage_destination_title">Miejscowość</string>
+    <string name="stage_station_title">Przystanek</string>
+    <string name="stage_arrival_title">Godzina przyjazdu</string>
+    <string name="stage_price_title">Cena</string>
 
 </resources>

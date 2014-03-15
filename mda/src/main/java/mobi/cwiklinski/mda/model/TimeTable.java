@@ -1,31 +1,32 @@
 package mobi.cwiklinski.mda.model;
 
+import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 
 public class TimeTable extends Model {
     private String start;
     private String destination;
-    private MutableDateTime departure;
-    private MutableDateTime arrival;
+    private Long departure;
+    private Long arrival;
     private String length;
     private Double price;
     private String tickets;
-    private String description;
+    private Detail detail;
 
     public TimeTable() {
 
     }
 
-    public TimeTable(String start, String destination, MutableDateTime departure, MutableDateTime arrival,
-                     String length, Double price, String tickets, String description) {
+    public TimeTable(String start, String destination, DateTime departure, DateTime arrival,
+                     String length, Double price, String tickets, Detail detail) {
         this.start = start;
         this.destination = destination;
-        this.departure = departure;
-        this.arrival = arrival;
+        this.departure = departure.getMillis();
+        this.arrival = arrival.getMillis();
         this.length = length;
         this.price = price;
         this.tickets = tickets;
-        this.description = description;
+        this.detail = detail;
     }
 
     public String getStart() {
@@ -44,20 +45,24 @@ public class TimeTable extends Model {
         this.destination = destination;
     }
 
-    public MutableDateTime getDeparture() {
-        return departure;
+    public DateTime getDeparture() {
+        MutableDateTime date = new DateTime().toMutableDateTime();
+        date.setMillis(departure);
+        return date.toDateTime();
     }
 
-    public void setDeparture(MutableDateTime departure) {
-        this.departure = departure;
+    public void setDeparture(DateTime departure) {
+        this.departure = departure.getMillis();
     }
 
-    public MutableDateTime getArrival() {
-        return arrival;
+    public DateTime getArrival() {
+        MutableDateTime date = new DateTime().toMutableDateTime();
+        date.setMillis(arrival);
+        return date.toDateTime();
     }
 
-    public void setArrival(MutableDateTime arrival) {
-        this.arrival = arrival;
+    public void setArrival(DateTime arrival) {
+        this.arrival = arrival.getMillis();
     }
 
     public String getLength() {
@@ -84,11 +89,11 @@ public class TimeTable extends Model {
         this.tickets = tickets;
     }
 
-    public String getDescription() {
-        return description;
+    public Detail getDetail() {
+        return detail;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDetail(Detail detail) {
+        this.detail = detail;
     }
 }

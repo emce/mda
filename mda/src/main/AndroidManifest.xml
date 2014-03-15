@@ -58,6 +58,10 @@
             android:name=".activity.TableActivity"
             android:parentActivityName=".activity.DateActivity"
             android:launchMode="singleInstance" />
+        <activity
+            android:name=".activity.DetailActivity"
+            android:parentActivityName=".activity.TableActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

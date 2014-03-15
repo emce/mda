@@ -1,12 +1,17 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="one_dip">1dp</dimen>
+    <dimen name="two_dips">2dp</dimen>
     <dimen name="three_dips">3dp</dimen>
     <dimen name="five_dips">5dp</dimen>
     <dimen name="six_dips">6dp</dimen>
     <dimen name="ten_dips">10dp</dimen>
+    <dimen name="fifteen_dips">15dp</dimen>
     <dimen name="twenty_dips">20dp</dimen>
+    <dimen name="thirty_dips">30dp</dimen>
     <dimen name="fourty_dips">40dp</dimen>
 
+    <dimen name="text_ten">10sp</dimen>
     <dimen name="text_twelve">12sp</dimen>
     <dimen name="text_fourteen">14sp</dimen>
     <dimen name="text_sixteen">16sp</dimen>

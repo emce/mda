@@ -45,10 +45,9 @@ android {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.android.analytics:analytics:+'
     compile 'com.google.code.gson:gson:+'
     compile 'com.github.kevinsawicki:http-request:+'
     compile 'joda-time:joda-time:+'
-    debugCompile 'mobi.cwiklinski:typiconic:+'
     compile 'org.jsoup:jsoup:+'
 }

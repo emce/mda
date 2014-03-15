@@ -1,8 +1,14 @@
 package mobi.cwiklinski.mda.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
+
+import com.github.kevinsawicki.http.HttpRequest;
 
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
@@ -18,13 +24,14 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import mobi.cwiklinski.mda.R;
+import mobi.cwiklinski.mda.activity.DetailActivity;
 import mobi.cwiklinski.mda.adapter.TimeTableAdapter;
+import mobi.cwiklinski.mda.model.Detail;
 import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.model.TimeTable;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
 import mobi.cwiklinski.mda.util.UserPreferences;
-import mobi.cwiklinski.mda.util.Util;
 
 public class TableFragment extends BaseListFragment {
 
@@ -34,6 +41,7 @@ public class TableFragment extends BaseListFragment {
     private Constant.Destination mDestination;
     private DateTime mDate;
     private ArrayList<TimeTable> mTimeTables = new ArrayList<>();
+    private String mMessage;
 
     public static TableFragment newInstance() {
         TableFragment fragment = new TableFragment();
@@ -78,7 +86,7 @@ public class TableFragment extends BaseListFragment {
                     break;
             }
             getBaseActivity().setMainTitle(titleResource);
-            String subTitle = Util.DATETIME_FORMAT.format(mDate.toDate());
+            String subTitle = Constant.DATETIME_FORMAT.format(mDate.toDate());
             subTitle += ", " + mLocality.toLocalizedString(getResources());
             getBaseActivity().setSubTitle(subTitle);
         }
@@ -87,10 +95,7 @@ public class TableFragment extends BaseListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState == null) {
-            mTask = new FetchBusDataTask();
-            mTask.execute();
-        } else {
+        if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(Constant.EXTRA_TIMETABLE_LIST)) {
                 mTimeTables = (ArrayList<TimeTable>) savedInstanceState.getSerializable(
                     Constant.EXTRA_TIMETABLE_LIST);
@@ -98,6 +103,21 @@ public class TableFragment extends BaseListFragment {
             }
         }
         setEmptyText(getString(R.string.no_results));
+        if (!isLoaded) {
+            mTask = new FetchBusDataTask();
+            mTask.execute();
+        }
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        TimeTable item = mTimeTables.get(position);
+        if (item != null) {
+            getPreferences().saveTimetable(item);
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra(Constant.EXTRA_DETAIL, item.getDetail());
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -137,75 +157,92 @@ public class TableFragment extends BaseListFragment {
         protected ArrayList<TimeTable> doInBackground(Void... params) {
             ArrayList<TimeTable> list = new ArrayList<>();
             HttpUtil util = HttpUtil.getInstance();
-            util
-                .setUrl("http://rozklady.mda.malopolska.pl/ws/getBusSchedule.php?data="
-                    + prepareTimeTableUrl())
-                .setCookieFromPreferences(new UserPreferences(getActivity()))
-                .connect();
-            if (util.getJSONObject() != null && util.getJSONObject().has("html")) {
-                try {
-                    Document doc = Jsoup.parse(util.getJSONObject().getString("html"));
-                    Log.e(FRAGMENT_TAG, doc.normalise().toString());
-                    Element table = doc.getElementById("rozklad");
-                    int i = 0;
-                    int j = 0;
-                    for (Element tr : table.getElementsByTag("tr")) {
-                        if (tr.getElementsByTag("td").size() > 0) {
-                            TimeTable timeTable = new TimeTable();
-                            for (Element td : tr.getElementsByTag("td")) {
-                                try {
-                                    switch (i) {
-                                        case 0:
-                                            Log.e(FRAGMENT_TAG, "start: " + td.text());
-                                            timeTable.setStart(td.text());
-                                            break;
-                                        case 1:
-                                            timeTable.setDestination(td.text());
-                                            break;
-                                        case 2:
-                                            timeTable.setDeparture(new MutableDateTime(
-                                                Util.FULL_DATETIME_FORMAT.parse(td.text())));
-                                            break;
-                                        case 3:
-                                            timeTable.setArrival(new MutableDateTime(
-                                                Util.FULL_DATETIME_FORMAT.parse(td.text())));
-                                            break;
-                                        case 4:
-                                            timeTable.setLength(td.text());
-                                            break;
-                                        case 5:
-                                            timeTable.setPrice(Double.parseDouble(td.text().replace(",", ".")));
-                                            break;
-                                        case 6:
-                                            timeTable.setTickets(td.text());
-                                            break;
-                                        case 7:
-                                            timeTable.setDescription(td.text());
-                                            break;
+            try {
+                util
+                    .setUrl("http://rozklady.mda.malopolska.pl/ws/getBusSchedule.php?data="
+                        + prepareTimeTableUrl())
+                    .setCookieFromPreferences(new UserPreferences(getActivity()))
+                    .connect();
+                if (util.getJSONObject() != null && util.getJSONObject().has("html")) {
+                    try {
+                        Document doc = Jsoup.parse(util.getJSONObject().getString("html"));
+                        Element table = doc.getElementById("rozklad");
+                        int i = 0;
+                        int j = 0;
+                        if (table != null) {
+                            for (Element tr : table.getElementsByTag("tr")) {
+                                if (tr.getElementsByTag("td").size() > 0) {
+                                    TimeTable timeTable = new TimeTable();
+                                    for (Element td : tr.getElementsByTag("td")) {
+                                        Log.d(FRAGMENT_TAG, "td (" + i + ") :" + td.text());
+                                        try {
+                                            switch (i) {
+                                                case 0:
+                                                    Log.e(FRAGMENT_TAG, "start: " + td.text());
+                                                    timeTable.setStart(td.text());
+                                                    break;
+                                                case 1:
+                                                    timeTable.setDestination(td.text());
+                                                    break;
+                                                case 2:
+                                                    timeTable.setDeparture(new MutableDateTime(
+                                                        Constant.FULL_DATETIME_FORMAT.parse(td.text())).toDateTime());
+                                                    break;
+                                                case 3:
+                                                    timeTable.setArrival(new MutableDateTime(
+                                                        Constant.FULL_DATETIME_FORMAT.parse(td.text())).toDateTime());
+                                                    break;
+                                                case 4:
+                                                    timeTable.setLength(td.text());
+                                                    break;
+                                                case 5:
+                                                    timeTable.setPrice(Double.parseDouble(td.text().replace(",", ".")));
+                                                    break;
+                                                case 6:
+                                                    timeTable.setTickets(td.text());
+                                                    break;
+                                                case 7:
+                                                    String url = td.getElementsByTag("a").attr("id");
+                                                    Detail detail = Detail.parseFromString(url);
+                                                    timeTable.setDetail(detail);
+                                                    break;
+                                            }
+                                        } catch (IllegalArgumentException | ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        i++;
                                     }
-                                } catch (IllegalArgumentException | ParseException e) {
-                                    e.printStackTrace();
+                                    i = 0;
+                                    list.add(j, timeTable);
+                                    j++;
                                 }
-                                i++;
                             }
-                            list.add(j, timeTable);
-                            j++;
+                        } else {
+                            mMessage = doc.getElementsByTag("p").text();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            } catch (HttpRequest.HttpRequestException e) {
+                getBaseActivity().showMessage(R.string.connection_error);
             }
             return list;
         }
 
         @Override
         protected void onPostExecute(ArrayList<TimeTable> timeTables) {
+            setEmptyText(getString(R.string.no_results));
             if (timeTables.size() > 0) {
                 mTimeTables = timeTables;
                 setListAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
-                setListShown(true);
+            } else {
+                if (!TextUtils.isEmpty(mMessage)) {
+                    setEmptyText(mMessage);
+                    mMessage = null;
+                }
             }
+            setListShown(true);
         }
     }
 }
