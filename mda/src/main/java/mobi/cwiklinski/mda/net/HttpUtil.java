@@ -3,7 +3,6 @@ package mobi.cwiklinski.mda.net;
 
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -82,7 +81,7 @@ public class HttpUtil {
                 request = HttpRequest.get(mUrl);
                 break;
         }
-        request.connectTimeout(5000);
+        request.connectTimeout(10000);
         request.readTimeout(10000);
         request.header(HttpRequest.HEADER_ACCEPT, "*/*");
         request.header("API-Version", "1");
@@ -108,7 +107,6 @@ public class HttpUtil {
                 }
             }
         }
-        Log.e(TAG, toString());
         try {
             if (mRawResponse.length() > 2 && mRawResponse.startsWith("{")) {
                 mJSONObject = new JSONObject(mRawResponse);

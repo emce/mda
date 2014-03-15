@@ -23,6 +23,7 @@ public interface Constant {
     DateFormat TIMEDATE_FORMAT = new SimpleDateFormat("HH:mm, yyyy-MM-dd", Locale.getDefault());
     DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd, HH:mm", Locale.getDefault());
     DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    DateFormat FULL_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
     enum Destination {
         FROM_CRACOW,

@@ -80,16 +80,16 @@ public class DateFragment extends BaseFragment {
             int titleResource;
             switch(mDestination) {
                 case TO_CRACOW:
-                    titleResource = R.string.choose_to_cracow_button;
+                    titleResource = R.string.to_cracow;
                     break;
                 case FROM_NOWY_SACZ:
-                    titleResource = R.string.choose_from_nowysacz_button;
+                    titleResource = R.string.from_nowysacz;
                     break;
                 case TO_NOWY_SACZ:
-                    titleResource = R.string.choose_to_nowysacz_button;
+                    titleResource = R.string.to_nowysacz;
                     break;
                 default:
-                    titleResource = R.string.choose_from_cracow_button;
+                    titleResource = R.string.from_cracow;
                     break;
             }
             getBaseActivity().setMainTitle(titleResource);

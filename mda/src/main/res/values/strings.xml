@@ -11,6 +11,11 @@
     <string name="carrier">Carrier</string>
     <string name="incorrect_date">Chosen date must be later</string>
 
+    <!-- Titles -->
+    <string name="from_cracow">DEPARTURES from Cracow</string>
+    <string name="to_cracow">DEPARTURES to Cracow</string>
+    <string name="from_nowysacz">DEPARTURES from Nowy Sącz</string>
+    <string name="to_nowysacz">DEPARTURES to Nowy Sącz</string>
 
     <!-- Choose -->
     <string name="choose_from_cracow_button">DEPARTURES\nfrom Cracow</string>
@@ -44,5 +49,13 @@
     <string name="stage_arrival_title">Arrival time</string>
     <string name="stage_price_title">Price</string>
 
+    <plurals name="minutes">
+        <item quantity="other">%d minutes</item>
+        <item quantity="one">1 minute</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%d hours</item>
+        <item quantity="one">1 hour</item>
+    </plurals>
 
 </resources>

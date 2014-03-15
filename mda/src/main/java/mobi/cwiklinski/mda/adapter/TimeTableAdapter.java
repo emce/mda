@@ -75,20 +75,39 @@ public class TimeTableAdapter extends BaseAdapter {
         TimeTable item = mList.get(position);
         StringBuilder start = new StringBuilder();
         if (item.getDeparture() != null) {
-            start.append(Constant.DATETIME_FORMAT.format(item.getDeparture().toDate()));
+            start.append(Constant.TIME_FORMAT.format(item.getDeparture().toDate()));
             start.append(": ");
         }
         start.append(item.getStart());
         viewHolder.start.setText(start.toString());
         StringBuilder destination = new StringBuilder();
         if (item.getArrival() != null) {
-            destination.append(Constant.DATETIME_FORMAT.format(item.getArrival().toDate()));
+            destination.append(Constant.TIME_FORMAT.format(item.getArrival().toDate()));
             destination.append(": ");
         }
         destination.append(item.getDestination());
         viewHolder.destination.setText(destination.toString());
         if (!TextUtils.isEmpty(item.getLength())) {
-            viewHolder.length.setText(item.getLength());
+            if (item.getLength().contains(":")) {
+                try {
+                    String[] parts = item.getLength().split(":");
+                    if (parts.length > 1) {
+                        int hours = Integer.parseInt(parts[0]);
+                        int minutes = Integer.parseInt(parts[1]);
+                        String length = mContext.getResources().getQuantityString(R.plurals.hours, hours, hours);
+                        if (minutes > 0) {
+                            length += " " + mContext.getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
+                        }
+                        viewHolder.length.setText(length);
+                    } else {
+                        viewHolder.length.setText(item.getLength());
+                    }
+                } catch (Exception e) {
+                    viewHolder.length.setText(item.getLength());
+                }
+            } else {
+                viewHolder.length.setText(item.getLength());
+            }
         }
         if (item.getPrice() != null) {
             if (item.getPrice() > 0) {

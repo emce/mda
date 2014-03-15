@@ -37,7 +37,8 @@ android {
             runProguard false
         }
         release {
-            runProguard false
+            signingConfig signingConfigs.release
+            runProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
                     'proguard-rules.txt'
         }
