@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ public class HttpUtil {
         return this;
     }
 
-    public HttpUtil connect() throws HttpRequest.HttpRequestException {
+    public HttpUtil connect() throws HttpRequest.HttpRequestException, SocketTimeoutException {
         HttpRequest request;
         switch (mMethod) {
             case POST:

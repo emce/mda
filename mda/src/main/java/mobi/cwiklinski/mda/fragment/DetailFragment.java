@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -165,8 +166,8 @@ public class DetailFragment extends BaseListFragment {
 
                     }
                 }
-            } catch (HttpRequest.HttpRequestException e) {
-                getBaseActivity().showMessage(R.string.connection_error);
+            } catch (IOException | HttpRequest.HttpRequestException e) {
+                notifyConnectionError();
             }
             return list;
         }

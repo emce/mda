@@ -17,6 +17,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -221,8 +222,8 @@ public class TableFragment extends BaseListFragment {
                         e.printStackTrace();
                     }
                 }
-            } catch (HttpRequest.HttpRequestException e) {
-                getBaseActivity().showMessage(R.string.connection_error);
+            } catch (IOException | HttpRequest.HttpRequestException e) {
+                notifyConnectionError();
             }
             return list;
         }

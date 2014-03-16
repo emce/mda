@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import mobi.cwiklinski.mda.R;
@@ -221,8 +222,8 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
                     .connect()
                     .getObjects(new TypeToken<ArrayList<Locality>>() {
                     });
-            } catch (HttpRequest.HttpRequestException e) {
-                getBaseActivity().showMessage(R.string.connection_error);
+            } catch (IOException | HttpRequest.HttpRequestException e) {
+                notifyConnectionError();
             }
             return new ArrayList<>();
         }

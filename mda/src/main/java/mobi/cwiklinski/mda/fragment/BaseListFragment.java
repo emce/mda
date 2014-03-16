@@ -3,6 +3,7 @@ package mobi.cwiklinski.mda.fragment;
 import android.app.ListFragment;
 import android.os.Bundle;
 
+import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.BaseActivity;
 import mobi.cwiklinski.mda.util.Constant;
 import mobi.cwiklinski.mda.util.UserPreferences;
@@ -31,5 +32,16 @@ public class BaseListFragment extends ListFragment {
 
     public UserPreferences getPreferences() {
         return getBaseActivity().getPreferences();
+    }
+
+    public void notifyConnectionError() {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getBaseActivity().showMessage(R.string.connection_error);
+                }
+            });
+        }
     }
 }

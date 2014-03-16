@@ -18,6 +18,8 @@ import com.github.kevinsawicki.http.HttpRequest;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
+
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
@@ -161,7 +163,7 @@ public class BaseActivity extends Activity {
                     .connect()
                     .getCookie();
                 getPreferences().saveField(UserPreferences.KEY_PHPSESSID, cookie);
-            } catch (HttpRequest.HttpRequestException e) {
+            } catch (IOException | HttpRequest.HttpRequestException e) {
                 e.printStackTrace();
             }
             return null;
