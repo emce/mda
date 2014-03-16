@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -16,8 +17,8 @@ public class LocalityRemoteAdapter extends ArrayAdapter<Locality> {
 
     public LocalityRemoteAdapter(Context context, List<Locality> list) {
         super(context, android.R.layout.simple_spinner_dropdown_item);
-        mContext = context;
         mList = list;
+        mContext = context;
     }
 
     @Override
@@ -39,7 +40,9 @@ public class LocalityRemoteAdapter extends ArrayAdapter<Locality> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
         if (view != null && !mList.isEmpty()) {
-            view.setTag(mList.get(position));
+            Locality item = mList.get(position);
+            view.setTag(item);
+            ((TextView) view).setText(item.toLocalizedString(mContext.getResources()));
         }
         return view;
     }
