@@ -83,6 +83,16 @@ public class StageAdapter extends ArrayAdapter<Stage> {
         return convertView;
     }
 
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
     private class StageHolder {
         TextView order;
         TextView station;
