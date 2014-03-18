@@ -49,6 +49,7 @@ public class StageAdapter extends ArrayAdapter<Stage> {
         StageHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.stage_item, parent, false);
+            mTypefaceManager.parse((ViewGroup) convertView);
             viewHolder = new StageHolder();
             viewHolder.order = (TextView) convertView.findViewById(R.id.st_order);
             viewHolder.station = (TextView) convertView.findViewById(R.id.st_station);

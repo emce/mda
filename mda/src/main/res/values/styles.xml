@@ -51,7 +51,7 @@
 
     <style name="TimeTable" />
     <style name="TimeTable.Header">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@drawable/item_label</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
@@ -62,14 +62,16 @@
         <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@drawable/item_text</item>
     </style>
 
     <style name="Stage" />
     <style name="Stage.Hour">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@drawable/item_label</item>
         <item name="android:textSize">@dimen/text_twenty</item>
     </style>
     <style name="Stage.Title">
+        <item name="android:textColor">@drawable/item_text</item>
         <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>

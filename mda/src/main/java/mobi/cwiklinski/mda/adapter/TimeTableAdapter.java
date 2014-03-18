@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -50,13 +51,7 @@ public class TimeTableAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.timetable_item, parent, false);
             ViewGroup view = (ViewGroup) convertView;
-            for (int i = 0; i < view.getChildCount(); i++) {
-                View v = view.getChildAt(i);
-                if (v instanceof TextView) {
-                    ((TextView) v).setTypeface(
-                        mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_NORMAL));
-                }
-            }
+            mTypefaceManager.parse(view);
             viewHolder = new TimeTableHolder();
             viewHolder.start = (TextView) convertView.findViewById(R.id.tt_start);
             viewHolder.destination = (TextView) convertView.findViewById(R.id.tt_destination);
@@ -65,9 +60,6 @@ public class TimeTableAdapter extends BaseAdapter {
             viewHolder.tickets = (TextView) convertView.findViewById(R.id.tt_tickets);
             viewHolder.start.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
             viewHolder.destination.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-            viewHolder.length.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-            viewHolder.price.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-            viewHolder.tickets.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (TimeTableHolder) convertView.getTag();

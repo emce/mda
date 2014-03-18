@@ -3,6 +3,9 @@ package mobi.cwiklinski.mda.util;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.SparseArray;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class TypefaceManager {
 
@@ -36,6 +39,19 @@ public class TypefaceManager {
 
     public Typeface getTypeface(FontFace face) {
         return mTypefaceList.get(face.getId());
+    }
+
+    public void parse(ViewGroup group) {
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View v = group.getChildAt(i);
+            if (v instanceof TextView) {
+                ((TextView) v).setTypeface(
+                    getTypeface(TypefaceManager.FontFace.ROBOTO_NORMAL));
+            }
+            if (v instanceof ViewGroup) {
+                parse((ViewGroup) v);
+            }
+        }
     }
 
     public enum FontFace {

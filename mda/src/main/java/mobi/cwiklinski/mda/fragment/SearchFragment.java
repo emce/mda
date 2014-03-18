@@ -30,6 +30,7 @@ import mobi.cwiklinski.mda.adapter.LocalityRemoteAdapter;
 import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
+import mobi.cwiklinski.mda.util.TypefaceManager;
 
 public class SearchFragment extends BaseFragment implements TextWatcher {
 
@@ -71,6 +72,7 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getTypefaceManager().parse((ViewGroup) view);
         mSuggest = (AutoCompleteTextView) view.findViewById(R.id.search_auto);
         mInfo = (LinearLayout) view.findViewById(R.id.search_info);
         mCity = (TextView) view.findViewById(R.id.search_city);

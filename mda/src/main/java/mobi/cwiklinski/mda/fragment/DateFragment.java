@@ -17,6 +17,7 @@ import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.TableActivity;
 import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.util.Constant;
+import mobi.cwiklinski.mda.util.TypefaceManager;
 
 public class DateFragment extends BaseFragment {
 
@@ -48,6 +49,7 @@ public class DateFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getTypefaceManager().parse((ViewGroup) view);
         mDatePicker = (DatePicker) view.findViewById(R.id.date_date);
         mTimePicker = (TimePicker) view.findViewById(R.id.date_time);
         Button next = (Button) view.findViewById(R.id.date_next);
@@ -68,9 +70,12 @@ public class DateFragment extends BaseFragment {
                 }
             }
         });
+        next.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_NORMAL));
         mDatePicker.setCalendarViewShown(true);
         mDatePicker.setSpinnersShown(false);
         mTimePicker.setIs24HourView(true);
+        int minutes = new DateTime().getSecondOfMinute() > 45 ? 2 : 1;
+        mTimePicker.setCurrentMinute(new DateTime().plusMinutes(minutes).getMinuteOfHour());
     }
 
     @Override

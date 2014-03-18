@@ -1,6 +1,7 @@
 package mobi.cwiklinski.mda.fragment;
 
 import android.app.Fragment;
+import android.view.ViewGroup;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.BaseActivity;
