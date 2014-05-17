@@ -3,7 +3,6 @@ package mobi.cwiklinski.mda.util;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.ExceptionParser;
@@ -17,11 +16,9 @@ import java.util.Map;
 public class GoogleAnalyticsHelper {
 
     public static void activityStart(Activity activity) {
-        if (0 != (activity.getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE)) {
-            EasyTracker.getInstance().activityStart(activity);
-            setExceptionHandler(new DefaultExceptionParser(activity.getApplicationContext()),
-                false, activity);
-        }
+        EasyTracker.getInstance().activityStart(activity);
+        setExceptionHandler(new DefaultExceptionParser(activity.getApplicationContext()),
+            false, activity);
     }
 
     public static void serviceStart(Context context) {
