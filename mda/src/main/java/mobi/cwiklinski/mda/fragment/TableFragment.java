@@ -4,10 +4,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.joanzapata.android.iconify.Iconify;
 
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
@@ -32,8 +41,9 @@ import mobi.cwiklinski.mda.model.TimeTable;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
 import mobi.cwiklinski.mda.util.UserPreferences;
+import mobi.cwiklinski.mda.util.Util;
 
-public class TableFragment extends BaseListFragment {
+public class TableFragment extends BaseFragment implements ActionMode.Callback, AdapterView.OnItemClickListener {
 
     public static final String FRAGMENT_TAG = TableFragment.class.getSimpleName();
     private Locality mLocality;
@@ -42,6 +52,11 @@ public class TableFragment extends BaseListFragment {
     private DateTime mDate;
     private ArrayList<TimeTable> mTimeTables = new ArrayList<>();
     private String mMessage;
+    private int currentPosition = -10;
+    private ListView mListView;
+    private TextView mEmptyView;
+    private LinearLayout mLoader;
+    private FrameLayout mContainer;
 
     public static TableFragment newInstance() {
         TableFragment fragment = new TableFragment();
@@ -56,6 +71,9 @@ public class TableFragment extends BaseListFragment {
         mLocality = getPreferences().getLocality();
         mDestination = getPreferences().getDestination();
         mDate = getPreferences().getDate();
+        if (savedInstanceState != null && savedInstanceState.containsKey(Constant.EXTRA_POSITION)) {
+            currentPosition = savedInstanceState.getInt(Constant.EXTRA_POSITION);
+        }
     }
 
     @Override
@@ -67,29 +85,15 @@ public class TableFragment extends BaseListFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mDestination != null) {
-            int titleResource;
-            switch(mDestination) {
-                case TO_CRACOW:
-                    titleResource = R.string.to_cracow;
-                    break;
-                case FROM_NOWY_SACZ:
-                    titleResource = R.string.from_nowysacz;
-                    break;
-                case TO_NOWY_SACZ:
-                    titleResource = R.string.to_nowysacz;
-                    break;
-                default:
-                    titleResource = R.string.from_cracow;
-                    break;
-            }
-            getBaseActivity().setMainTitle(titleResource);
-            String subTitle = Constant.DATETIME_FORMAT.format(mDate.toDate());
-            subTitle += ", " + mLocality.toLocalizedString(getResources());
-            getBaseActivity().setSubTitle(subTitle);
-        }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mEmptyView = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(mEmptyView);
+        mListView.setOnItemClickListener(this);
+        mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        mContainer = (FrameLayout) view.findViewById(R.id.listContainer);
+        mLoader = (LinearLayout) view.findViewById(R.id.progressContainer);
     }
 
     @Override
@@ -99,24 +103,14 @@ public class TableFragment extends BaseListFragment {
             if (savedInstanceState.containsKey(Constant.EXTRA_TIMETABLE_LIST)) {
                 mTimeTables = (ArrayList<TimeTable>) savedInstanceState.getSerializable(
                     Constant.EXTRA_TIMETABLE_LIST);
-                getListView().setAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
+                mListView.setAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
             }
         }
-        setEmptyText(getString(R.string.no_results));
+        mListView.setDivider(null);
         if (!isLoaded) {
+            setListShown(false);
             mTask = new FetchBusDataTask();
             mTask.execute();
-        }
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        TimeTable item = mTimeTables.get(position);
-        if (item != null) {
-            getPreferences().saveTimetable(item);
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(Constant.EXTRA_DETAIL, item.getDetail());
-            startActivity(intent);
         }
     }
 
@@ -126,6 +120,55 @@ public class TableFragment extends BaseListFragment {
         if (!mTimeTables.isEmpty()) {
             outState.putSerializable(Constant.EXTRA_TIMETABLE_LIST, mTimeTables);
         }
+        outState.putInt(Constant.EXTRA_POSITION, currentPosition);
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        if (actionMode != null) {
+            setActionBarItem(menu.add(R.id.menu_group_main, R.id.menu_details, ++mMenuOrder,
+                R.string.detail_title), Iconify.IconValue.fa_list_alt);
+            setActionBarItem(menu.add(R.id.menu_group_main, R.id.menu_sms, ++mMenuOrder,
+                R.string.menu_sms), Iconify.IconValue.fa_envelope);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem item) {
+        if (currentPosition >= 0) {
+            TimeTable timeTable = mTimeTables.get(currentPosition);
+            if (item != null && timeTable != null) {
+                switch (item.getItemId()) {
+                    case R.id.menu_details:
+                        Intent intent = new Intent(getActivity(), DetailActivity.class);
+                        intent.putExtra(Constant.EXTRA_DETAIL, timeTable.getDetail());
+                        startActivity(intent);
+                        if (actionMode != null) {
+                            actionMode.finish();
+                        }
+                        return true;
+                    case R.id.menu_sms:
+                        startActivity(Util.sendSms(Util.generateSmsBody(getActivity(), timeTable)));
+                        if (actionMode != null) {
+                            actionMode.finish();
+                        }
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+        currentPosition = -10;
     }
 
     private String prepareTimeTableUrl() {
@@ -149,6 +192,39 @@ public class TableFragment extends BaseListFragment {
             e.printStackTrace();
         }
         return "";
+    }
+
+    private int getCityResource() {
+        switch (mDestination) {
+            case FROM_NOWY_SACZ:
+            case TO_NOWY_SACZ:
+                return R.string.nowysacz;
+            default:
+                return R.string.cracow;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        currentPosition = position;
+        TimeTable timeTable = mTimeTables.get(currentPosition);
+        getPreferences().saveTimetable(timeTable);
+        if (mActionMode != null) {
+            mActionMode.finish();
+        }
+        if (getBaseActivity() != null) {
+            mActionMode = getBaseActivity().startActionMode(this);
+        }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.list;
+    }
+
+    private void setListShown(boolean shown) {
+        mContainer.setVisibility(shown ? View.VISIBLE : View.GONE);
+        mLoader.setVisibility(shown ? View.GONE : View.VISIBLE);
     }
 
     private class FetchBusDataTask extends AsyncTask<Void, Void, ArrayList<TimeTable>> {
@@ -177,10 +253,24 @@ public class TableFragment extends BaseListFragment {
                                         try {
                                             switch (i) {
                                                 case 0:
-                                                    timeTable.setStart(td.text());
+                                                    if (mDestination.equals(Constant.Destination.TO_CRACOW)
+                                                        || mDestination.equals(Constant.Destination.TO_NOWY_SACZ)) {
+                                                        timeTable.setCarrier(td.text().replace(mLocality.getName() + " ", ""));
+                                                        timeTable.setStart(mLocality.getName());
+                                                    } else {
+                                                        for (Element b : td.getElementsByTag("b")) {
+                                                            timeTable.setCarrier(b.text());
+                                                        }
+                                                        timeTable.setStart(getString(getCityResource()));
+                                                    }
                                                     break;
                                                 case 1:
-                                                    timeTable.setDestination(td.text());
+                                                    if (mDestination.equals(Constant.Destination.TO_CRACOW)
+                                                        || mDestination.equals(Constant.Destination.TO_NOWY_SACZ)) {
+                                                        timeTable.setDestination(getString(getCityResource()));
+                                                    } else {
+                                                        timeTable.setDestination(mLocality.getName());
+                                                    }
                                                     break;
                                                 case 2:
                                                     timeTable.setDeparture(new MutableDateTime(
@@ -230,13 +320,12 @@ public class TableFragment extends BaseListFragment {
 
         @Override
         protected void onPostExecute(ArrayList<TimeTable> timeTables) {
-            setEmptyText(getString(R.string.no_results));
             if (timeTables.size() > 0) {
                 mTimeTables = timeTables;
-                setListAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
+                mListView.setAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
             } else {
                 if (!TextUtils.isEmpty(mMessage)) {
-                    setEmptyText(mMessage);
+                    mEmptyView.setText(mMessage);
                     mMessage = null;
                 }
             }

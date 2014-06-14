@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Choose -->
+    <string name="choose_from_cracow_button">DEPARTURES\nfrom Cracow</string>
+    <string name="choose_to_cracow_button">DEPARTURES\nto Cracow</string>
+    <string name="choose_from_nowysacz_button">DEPARTURES\nfrom Nowy Sącz</string>
+    <string name="choose_to_nowysacz_button">DEPARTURES\nto Nowy Sącz</string>
+</resources>

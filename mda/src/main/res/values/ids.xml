@@ -2,4 +2,8 @@
 <resources>
     <item name="menu_group_main" type="id" />
     <item name="menu_search_item" type="id" />
+    <item name="menu_forward" type="id" />
+    <item name="menu_sms" type="id" />
+    <item name="menu_details" type="id" />
+    <item name="menu_info" type="id" />
 </resources>

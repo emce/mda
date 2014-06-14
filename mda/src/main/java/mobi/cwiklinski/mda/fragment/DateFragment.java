@@ -1,8 +1,11 @@
 package mobi.cwiklinski.mda.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,22 +13,26 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.joanzapata.android.iconify.Iconify;
+
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+
+import java.util.Calendar;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.TableActivity;
-import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.util.Constant;
-import mobi.cwiklinski.mda.util.TypefaceManager;
+import mobi.cwiklinski.mda.util.Util;
 
 public class DateFragment extends BaseFragment {
 
     public static final String FRAGMENT_TAG = DateFragment.class.getSimpleName();
-    private DatePicker mDatePicker;
+    private Button mDatePicker;
     private TimePicker mTimePicker;
-    private Locality mLocality;
-    private Constant.Destination mDestination = Constant.Destination.FROM_CRACOW;
+    private DateTime mChosenDate = new DateTime();
 
     public static DateFragment newInstance() {
         DateFragment fragment = new DateFragment();
@@ -35,31 +42,62 @@ public class DateFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mDestination = getPreferences().getDestination();
-        mLocality = getPreferences().getLocality();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.date, container, false);
+    protected int getLayoutResource() {
+        return R.layout.date;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey(Constant.EXTRA_DATETIME)) {
+            MutableDateTime date = new DateTime().toMutableDateTime();
+            date.setMillis(savedInstanceState.getLong(Constant.EXTRA_DATETIME));
+            mChosenDate = date.toDateTime();
+        }
         getTypefaceManager().parse((ViewGroup) view);
-        mDatePicker = (DatePicker) view.findViewById(R.id.date_date);
-        mTimePicker = (TimePicker) view.findViewById(R.id.date_time);
-        Button next = (Button) view.findViewById(R.id.date_next);
-        next.setOnClickListener(new View.OnClickListener() {
+        mDatePicker = (Button) view.findViewById(R.id.date_date);
+        setDateLabel();
+        mDatePicker.setCompoundDrawables(
+            Util.fontToDrawable(getActivity(), Iconify.IconValue.fa_calendar, android.R.color.white, R.dimen.twenty_dips),
+            null, null, null);
+        mDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MutableDateTime dateTime = new DateTime().toMutableDateTime();
-                dateTime.setYear(mDatePicker.getYear());
-                dateTime.setMonthOfYear(mDatePicker.getMonth() + 1);
-                dateTime.setDayOfMonth(mDatePicker.getDayOfMonth());
+                final Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(mChosenDate.getMillis());
+                DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                            mChosenDate = new DateTime(year, monthOfYear + 1, dayOfMonth, 0, 0);
+                            setDateLabel();
+                        }
+                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.show();
+            }
+        });
+        mTimePicker = (TimePicker) view.findViewById(R.id.date_time);
+        mTimePicker.setIs24HourView(true);
+        DateTime now = new DateTime().plusMinutes(5);
+        mTimePicker.setCurrentHour(now.getHourOfDay());
+        mTimePicker.setCurrentMinute(now.getMinuteOfHour());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem near = menu.add(R.id.menu_group_main, R.id.menu_forward, ++mMenuOrder,
+            R.string.menu_forward);
+        setActionBarItem(near, Iconify.IconValue.fa_arrow_circle_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_forward:
+                MutableDateTime dateTime = mChosenDate.toMutableDateTime();
                 dateTime.setHourOfDay(mTimePicker.getCurrentHour());
                 dateTime.setMinuteOfHour(mTimePicker.getCurrentMinute());
                 if (dateTime.isAfterNow()) {
@@ -68,37 +106,30 @@ public class DateFragment extends BaseFragment {
                 } else {
                     Toast.makeText(getActivity(), R.string.incorrect_date, Toast.LENGTH_LONG).show();
                 }
-            }
-        });
-        next.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_NORMAL));
-        mDatePicker.setCalendarViewShown(true);
-        mDatePicker.setSpinnersShown(false);
-        mTimePicker.setIs24HourView(true);
-        int minutes = new DateTime().getSecondOfMinute() > 45 ? 2 : 1;
-        mTimePicker.setCurrentMinute(new DateTime().plusMinutes(minutes).getMinuteOfHour());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (mDestination != null) {
-            int titleResource;
-            switch(mDestination) {
-                case TO_CRACOW:
-                    titleResource = R.string.to_cracow;
-                    break;
-                case FROM_NOWY_SACZ:
-                    titleResource = R.string.from_nowysacz;
-                    break;
-                case TO_NOWY_SACZ:
-                    titleResource = R.string.to_nowysacz;
-                    break;
-                default:
-                    titleResource = R.string.from_cracow;
-                    break;
-            }
-            getBaseActivity().setMainTitle(titleResource);
-            getBaseActivity().setSubTitle(mLocality.toLocalizedString(getResources()));
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(Constant.EXTRA_DATETIME, mChosenDate.getMillis());
+    }
+
+    private void setDateLabel() {
+        DateTime now = new DateTime();
+        int difference = Days.daysBetween(
+            now.withTimeAtStartOfDay(), mChosenDate.withTimeAtStartOfDay()).getDays();
+        if (difference == 0) {
+            mDatePicker.setText(R.string.choose_date_today);
+        } else if (difference == 1) {
+            mDatePicker.setText(R.string.choose_date_tomorrow);
+        } else if (difference == 2) {
+            mDatePicker.setText(R.string.choose_date_day_after_tomorrow);
+        } else {
+            mDatePicker.setText(mChosenDate.toString(DateTimeFormat.forPattern("dd MMMM yyyy")));
         }
     }
 }

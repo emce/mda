@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/twenty_dips">
+    android:orientation="vertical">
 
-    <ScrollView
+    <include
+        android:id="@+id/current"
+        layout="@layout/current"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/date_next">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <DatePicker
-                android:id="@+id/date_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TimePicker
-                android:id="@+id/date_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/date_next"
+        android:id="@+id/date_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/twenty_dips"
-        android:gravity="center"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="@string/next" />
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/ten_dips"
+        android:drawablePadding="@dimen/five_dips"
+        android:paddingRight="@dimen/thirty_dips"
+        tools:text="29 czerwca 2012"/>
 
-</RelativeLayout>
+    <TimePicker
+        android:id="@+id/date_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

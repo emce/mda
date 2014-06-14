@@ -17,6 +17,8 @@ public interface Constant {
     String EXTRA_STAGE_LIST = "stage_list";
     String EXTRA_CARRIER = "carrier";
     String EXTRA_LOADED = "loaded";
+    String EXTRA_DATETIME = "datetime";
+    String EXTRA_POSITION = "position";
 
     String URL_MAIN = "http://rozklady.mda.malopolska.pl";
     DateFormat FULL_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());

@@ -10,6 +10,7 @@
     <dimen name="twenty_dips">20dp</dimen>
     <dimen name="thirty_dips">30dp</dimen>
     <dimen name="fourty_dips">40dp</dimen>
+    <dimen name="tfh_dips">250dp</dimen>
 
     <dimen name="text_ten">10sp</dimen>
     <dimen name="text_twelve">12sp</dimen>

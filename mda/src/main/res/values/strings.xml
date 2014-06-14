@@ -1,61 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MDA TimeTable</string>
-    <string name="next">Next</string>
-    <string name="no_results">No results</string>
-    <string name="no_data">no data</string>
-    <string name="connection_error">There is connection error. Please try again.</string>
-    <string name="no_required_data">Missing required data!</string>
-    <string name="at">at</string>
-    <string name="carrier">Carrier</string>
-    <string name="incorrect_date">Chosen date must be later</string>
-
+    <string name="app_name">Rozkład Jazdy MDA</string>
+    <string name="app_name_adfree">Rozkład Jazdy MDA (bez reklam)</string>
+    <string name="next">Dalej</string>
+    <string name="no_results">Brak wyników</string>
+    <string name="no_data">b.d.</string>
+    <string name="connection_error">Wystąpił błąd połączenie. Spróbuj ponownie.</string>
+    <string name="no_required_data">Brak wymaganych danych!</string>
+    <string name="at">o</string>
+    <string name="carrier">Przewoźnik</string>
+    <string name="incorrect_date">Wybrana data musi być późniejsza</string>
+    <string name="loading">Ładuję…</string>
+    <string name="no_ads_play_link" translatable="false">http://play.google.com/store/apps/details?id=mobi.cwiklinski.mda.adfree</string>
+    <string name="info_about">Aplikacja <b>Rozkład jazdy MDA</b> jest nieoficjalną aplikacją pozwalającą na przeglądanie rozkładu jazdy obowiązującego na Małopolskich Dworcach Autobusowych (MDA).\n\n\nWspomóż autora i kup aplikację z wyłączonymi reklamami - kliknij poniższy przycisk:</string>
+    <string name="info_author"><b>Autor</b>: Michał Ćwikliński\ntel. <a href="tel:+48535911111">+48 535 911 111</a>\nemail: <a href="mailto:michal@cwiklinski.mobi">michal@cwiklinski.mobi</a>\nstrona internetowa: <a href="http://www.cwiklinski.mobi">www.cwiklinski.mobi</a>\nTworzenie aplikacji na system Android</string>
+    <string name="close">ZAMKNIJ</string>
+    
     <!-- Titles -->
-    <string name="from_cracow">DEPARTURES from Cracow</string>
-    <string name="to_cracow">DEPARTURES to Cracow</string>
-    <string name="from_nowysacz">DEPARTURES from Nowy Sącz</string>
-    <string name="to_nowysacz">DEPARTURES to Nowy Sącz</string>
+    <string name="from_cracow">ODJAZDY z Krakowa</string>
+    <string name="to_cracow">ODJAZDY do Krakowa</string>
+    <string name="from_nowysacz">ODJAZDY z Nowego Sącza</string>
+    <string name="to_nowysacz">ODJAZDY do Nowego Sącza</string>
+    <string name="cracow">Kraków</string>
+    <string name="nowysacz">Nowy Sącz</string>
 
     <!-- Choose -->
-    <string name="choose_from_cracow_button">DEPARTURES\nfrom Cracow</string>
-    <string name="choose_to_cracow_button">DEPARTURES\nto Cracow</string>
-    <string name="choose_from_nowysacz_button">DEPARTURES\nfrom Nowy Sącz</string>
-    <string name="choose_to_nowysacz_button">DEPARTURES\nto Nowy Sącz</string>
-    <string name="choose_city_hint">Start typing to search the city</string>
-    <string name="choose_destination_title">Choose destination</string>
-    <string name="choose_city_title">Choose city</string>
-    <string name="choose_city">City</string>
-    <string name="choose_province">Province</string>
-    <string name="choose_district">District</string>
-    <string name="choose_community">Community</string>
-    <string name="choose_date_title">Choose time and date</string>
-    <string name="choose_date_hint">choose date</string>
-    <string name="choose_time_hint">choose time</string>
+    <string name="choose_from_cracow_button">ODJAZDY z Krakowa</string>
+    <string name="choose_to_cracow_button">ODJAZDY do Krakowa</string>
+    <string name="choose_from_nowysacz_button">ODJAZDY z Nowego Sącza</string>
+    <string name="choose_to_nowysacz_button">ODJAZDY do Nowego Sącza</string>
+    <string name="choose_city_hint">Aby wyszukać, zacznij wprowadzać tekst</string>
+    <string name="choose_destination_title">Wybierz trasę</string>
+    <string name="choose_city_title">Wybierz miasto</string>
+    <string name="choose_city">Miasto</string>
+    <string name="choose_province">Województwo</string>
+    <string name="choose_district">Powiat</string>
+    <string name="choose_community">Gmina</string>
+    <string name="choose_date_title">Wybierz godzinę i dzień</string>
+    <string name="choose_date_hint">wybierz dzień</string>
+    <string name="choose_time_hint">wybierz godzinę</string>
+    <string name="choose_date_today">dzisiaj</string>
+    <string name="choose_date_tomorrow">jutro</string>
+    <string name="choose_date_day_after_tomorrow">pojutrze</string>
 
     <!-- TimeTable -->
-    <string name="timetable_start_title">Departure</string>
-    <string name="timetable_destination_title">Arrival</string>
-    <string name="timetable_departure_title">Departure time</string>
-    <string name="timetable_arrival_title">Arrival time</string>
-    <string name="timetable_length_title">Travel time</string>
-    <string name="timetable_price_title">Price</string>
-    <string name="timetable_tickets_title">Tickets</string>
+    <string name="timetable_start_title">Odjazd</string>
+    <string name="timetable_destination_title">Przyjazd</string>
+    <string name="timetable_departure_title">Godzina odjazdu</string>
+    <string name="timetable_arrival_title">Godzina przyjazdu</string>
+    <string name="timetable_length_title">Czas podróży</string>
+    <string name="timetable_price_title">Cena</string>
+    <string name="timetable_tickets_title">Bilety</string>
 
     <!-- Stage -->
-    <string name="detail_title">Journey details</string>
-    <string name="stage_destination_title">Destination</string>
-    <string name="stage_station_title">Station</string>
-    <string name="stage_arrival_title">Arrival time</string>
-    <string name="stage_price_title">Price</string>
+    <string name="detail_title">Szczegóły kursu</string>
+    <string name="stage_destination_title">Miejscowość</string>
+    <string name="stage_station_title">Przystanek</string>
+    <string name="stage_arrival_title">Godzina przyjazdu</string>
+    <string name="stage_price_title">Cena</string>
+
+    <!-- Menu -->
+    <string name="menu_forward">DALEJ</string>
+    <string name="menu_sms">Wyślij SMS</string>
+    <string name="menu_info">O aplikacji</string>
+
+    <!-- Icons -->
+    <string name="icon_clock" translatable="false">{fa-clock-o}</string>
+    <string name="icon_arrow_right" translatable="false">{fa-arrow-circle-right}</string>
+    <string name="icon_arrow_bottom" translatable="false">{fa-arrow-circle-down}</string>
+    <string name="icon_money" translatable="false">{fa-money}</string>
+    <string name="icon_bus" translatable="false">{fa-taxi}</string>
+    <string name="icon_ticket" translatable="false">{fa-ticket}</string>
 
     <plurals name="minutes">
-        <item quantity="other">%d minutes</item>
-        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minuty</item>
+        <item quantity="zero">%d minut</item>
+        <item quantity="one">1 minuta</item>
+        <item quantity="two">%d minuty</item>
+        <item quantity="few">%d minuty</item>
+        <item quantity="many">%d minut</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d hours</item>
-        <item quantity="one">1 hour</item>
+        <item quantity="other">%d godziny</item>
+        <item quantity="zero">%d godzin</item>
+        <item quantity="one">1 godzina</item>
+        <item quantity="two">%d godziny</item>
+        <item quantity="few">%d godziny</item>
+        <item quantity="many">%d godzin</item>
     </plurals>
+    <plurals name="tickets">
+        <item quantity="other">%d biletów</item>
+        <item quantity="zero">%d biletów</item>
+        <item quantity="one">1 bilet</item>
+        <item quantity="two">%d bilety</item>
+        <item quantity="few">%d biletów</item>
+        <item quantity="many">%d biletów</item>
+    </plurals>
+
 
 </resources>

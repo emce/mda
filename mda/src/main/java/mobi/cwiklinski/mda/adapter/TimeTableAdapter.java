@@ -6,8 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.joanzapata.android.iconify.Iconify;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -53,32 +54,42 @@ public class TimeTableAdapter extends BaseAdapter {
             ViewGroup view = (ViewGroup) convertView;
             mTypefaceManager.parse(view);
             viewHolder = new TimeTableHolder();
+            viewHolder.arrow = (TextView) convertView.findViewById(R.id.tt_arrow);
+            viewHolder.arrow.setText(R.string.icon_arrow_right);
+            viewHolder.bus = (TextView) convertView.findViewById(R.id.tt_bus);
+            viewHolder.bus.setText(R.string.icon_bus);
+            viewHolder.clock = (TextView) convertView.findViewById(R.id.tt_clock);
+            viewHolder.clock.setText(R.string.icon_clock);
+            viewHolder.money = (TextView) convertView.findViewById(R.id.tt_money);
+            viewHolder.money.setText(R.string.icon_money);
+            viewHolder.ticket = (TextView) convertView.findViewById(R.id.tt_ticket);
+            viewHolder.ticket.setText(R.string.icon_ticket);
             viewHolder.start = (TextView) convertView.findViewById(R.id.tt_start);
+            viewHolder.startCity = (TextView) convertView.findViewById(R.id.tt_start_city);
             viewHolder.destination = (TextView) convertView.findViewById(R.id.tt_destination);
+            viewHolder.destinationCity = (TextView) convertView.findViewById(R.id.tt_destination_city);
             viewHolder.length = (TextView) convertView.findViewById(R.id.tt_length);
             viewHolder.price = (TextView) convertView.findViewById(R.id.tt_price);
             viewHolder.tickets = (TextView) convertView.findViewById(R.id.tt_tickets);
-            viewHolder.start.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-            viewHolder.destination.setTypeface(mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+            viewHolder.carrier = (TextView) convertView.findViewById(R.id.tt_carrier);
+            viewHolder.start.setTypeface(
+                mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+            viewHolder.destination.setTypeface(
+                mTypefaceManager.getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+            Iconify.addIcons(viewHolder.arrow, viewHolder.money, viewHolder.clock, viewHolder.bus, viewHolder.ticket);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (TimeTableHolder) convertView.getTag();
         }
         TimeTable item = mList.get(position);
-        StringBuilder start = new StringBuilder();
         if (item.getDeparture() != null) {
-            start.append(Constant.TIME_FORMAT.format(item.getDeparture().toDate()));
-            start.append(": ");
+            viewHolder.start.setText(Constant.TIME_FORMAT.format(item.getDeparture().toDate()));
         }
-        start.append(item.getStart());
-        viewHolder.start.setText(start.toString());
-        StringBuilder destination = new StringBuilder();
+        viewHolder.startCity.setText(item.getStart());
         if (item.getArrival() != null) {
-            destination.append(Constant.TIME_FORMAT.format(item.getArrival().toDate()));
-            destination.append(": ");
+            viewHolder.destination.setText(Constant.TIME_FORMAT.format(item.getArrival().toDate()));
         }
-        destination.append(item.getDestination());
-        viewHolder.destination.setText(destination.toString());
+        viewHolder.destinationCity.setText(item.getDestination());
         if (!TextUtils.isEmpty(item.getLength())) {
             if (item.getLength().contains(":")) {
                 try {
@@ -109,16 +120,33 @@ public class TimeTableAdapter extends BaseAdapter {
             }
         }
         if (!TextUtils.isEmpty(item.getTickets())) {
-            viewHolder.tickets.setText(item.getTickets());
+            try {
+                int tickets = Integer.parseInt(item.getTickets());
+                viewHolder.tickets.setText(
+                    mContext.getResources().getQuantityString(R.plurals.tickets, tickets, tickets));
+            } catch (NumberFormatException e) {
+                viewHolder.tickets.setText(item.getTickets());
+            }
+        }
+        if (!TextUtils.isEmpty(item.getCarrier())) {
+            viewHolder.carrier.setText(item.getCarrier());
         }
         return convertView;
     }
 
     private class TimeTableHolder {
+        TextView arrow;
+        TextView bus;
+        TextView clock;
+        TextView money;
+        TextView ticket;
         TextView start;
+        TextView startCity;
         TextView destination;
+        TextView destinationCity;
         TextView length;
         TextView price;
         TextView tickets;
+        TextView carrier;
     }
 }

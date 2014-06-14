@@ -2,9 +2,7 @@ package mobi.cwiklinski.mda.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import mobi.cwiklinski.mda.R;
@@ -28,8 +26,8 @@ public class ChooseFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.choose, container, false);
+    protected int getLayoutResource() {
+        return R.layout.choose;
     }
 
     @Override
@@ -72,8 +70,6 @@ public class ChooseFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getBaseActivity().setMainTitle(R.string.app_name);
-        getBaseActivity().setSubTitle(R.string.choose_destination_title);
         mFromCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mToCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
         mFromNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/ten_dips">
+
+    <TextView
+        android:id="@+id/info_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_about" />
+
+    <Button
+        android:id="@+id/info_adfree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/ten_dips"
+        android:text="@string/app_name_adfree" />
+
+    <TextView
+        android:id="@+id/info_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_author" />
+
+</LinearLayout>

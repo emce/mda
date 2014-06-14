@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="mobi.cwiklinski.mda">
+    package="mobi.cwiklinski.mda">
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -20,7 +20,7 @@
         android:normalScreens="true"
         android:largeScreens="true"
         android:xlargeScreens="true"
-        android:anyDensity="true"/>
+        android:anyDensity="true" />
 
     <application
         android:allowBackup="true"
@@ -48,6 +48,15 @@
         <activity
             android:name=".activity.DetailActivity"
             android:parentActivityName=".activity.TableActivity" />
+
+        <!-- Activity required to show ad overlays. -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

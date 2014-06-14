@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +29,6 @@ public class BaseActivity extends Activity {
 
     private TypefaceManager mTypefaceManager;
     private UserPreferences mPreferences;
-    private View mCustomActionBarView;
-    private TextView mMainTitle;
-    private TextView mSubTitle;
     protected CheckConnectionTask mTask;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -54,7 +50,9 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment);
-        setCustomActionBar();
+        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+        TextView appTitle = (TextView) findViewById(titleId);
+        appTitle.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
     }
 
     @Override
@@ -87,37 +85,6 @@ public class BaseActivity extends Activity {
             mPreferences = new UserPreferences(this);
         }
         return mPreferences;
-    }
-
-    private void setCustomActionBar() {
-        if (mCustomActionBarView == null && getActionBar() != null) {
-            mCustomActionBarView = getLayoutInflater().inflate(R.layout.actionbar, null);
-            getActionBar().setDisplayShowCustomEnabled(true);
-            getActionBar().setDisplayShowTitleEnabled(false);
-            getActionBar().setCustomView(mCustomActionBarView);
-            mMainTitle = (TextView) mCustomActionBarView.findViewById(R.id.main_title);
-            mMainTitle.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-            mSubTitle = (TextView) mCustomActionBarView.findViewById(R.id.sub_title);
-            mSubTitle.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_NORMAL));
-        }
-    }
-
-    public void setMainTitle(int resourceId) {
-        setMainTitle(getString(resourceId));
-    }
-
-    public void setSubTitle(int resourceId) {
-        setSubTitle(getString(resourceId));
-    }
-
-    public void setMainTitle(String text) {
-        setCustomActionBar();
-        mMainTitle.setText(text);
-    }
-
-    public void setSubTitle(String text) {
-        setCustomActionBar();
-        mSubTitle.setText(text);
     }
 
     public void showMessage(int textResource) {

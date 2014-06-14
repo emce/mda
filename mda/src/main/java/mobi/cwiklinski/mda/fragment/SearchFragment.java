@@ -8,18 +8,20 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.reflect.TypeToken;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +32,6 @@ import mobi.cwiklinski.mda.adapter.LocalityRemoteAdapter;
 import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
-import mobi.cwiklinski.mda.util.TypefaceManager;
 
 public class SearchFragment extends BaseFragment implements TextWatcher {
 
@@ -65,8 +66,8 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.search, container, false);
+    protected int getLayoutResource() {
+        return R.layout.search;
     }
 
     @Override
@@ -79,38 +80,12 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
         mProvince = (TextView) view.findViewById(R.id.search_province);
         mDistrict = (TextView) view.findViewById(R.id.search_district);
         mCommunity = (TextView) view.findViewById(R.id.search_community);
-        Button next = (Button) view.findViewById(R.id.search_next);
         mSuggest.addTextChangedListener(this);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCurrentLocality != null) {
-                    getPreferences().saveLocality(mCurrentLocality);
-                    startActivity(new Intent(getActivity(), DateActivity.class));
-                }
-            }
-        });
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mDestination != null) {
-            switch (mDestination) {
-                case FROM_CRACOW:
-                    getBaseActivity().setMainTitle(R.string.from_cracow);
-                    break;
-                case TO_CRACOW:
-                    getBaseActivity().setMainTitle(R.string.to_cracow);
-                    break;
-                case FROM_NOWY_SACZ:
-                    getBaseActivity().setMainTitle(R.string.from_nowysacz);
-                    break;
-                case TO_NOWY_SACZ:
-                    getBaseActivity().setMainTitle(R.string.to_nowysacz);
-                    break;
-            }
-        }
         mSuggest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -131,23 +106,6 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     public void onResume() {
         super.onResume();
         if (mDestination != null) {
-            int titleResource;
-            switch(mDestination) {
-                case TO_CRACOW:
-                    titleResource = R.string.to_cracow;
-                    break;
-                case FROM_NOWY_SACZ:
-                    titleResource = R.string.from_nowysacz;
-                    break;
-                case TO_NOWY_SACZ:
-                    titleResource = R.string.to_nowysacz;
-                    break;
-                default:
-                    titleResource = R.string.from_cracow;
-                    break;
-            }
-            getBaseActivity().setMainTitle(titleResource);
-            getBaseActivity().setSubTitle(R.string.choose_city_title);
             fillLocality();
         }
     }
@@ -169,9 +127,32 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        if (mCurrentLocality != null) {
+            MenuItem near = menu.add(R.id.menu_group_main, R.id.menu_forward, ++mMenuOrder,
+                R.string.menu_forward);
+            setActionBarItem(near, Iconify.IconValue.fa_arrow_circle_right);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_forward:
+                if (mCurrentLocality != null) {
+                    getPreferences().saveLocality(mCurrentLocality);
+                    startActivity(new Intent(getActivity(), DateActivity.class));
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void fillLocality() {
         if (mCurrentLocality != null) {
-            getBaseActivity().setSubTitle(mCurrentLocality.getName());
             mCity.setText(mCurrentLocality.getName());
             if (!TextUtils.isEmpty(mCurrentLocality.getProvince())) {
                 mProvince.setText(mCurrentLocality.getProvince());
@@ -189,6 +170,7 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
                 mCommunity.setText(R.string.no_data);
             }
             mInfo.setVisibility(View.VISIBLE);
+            getActivity().invalidateOptionsMenu();
         }
     }
 

@@ -12,13 +12,14 @@ public class TimeTable extends Model {
     private Double price;
     private String tickets;
     private Detail detail;
+    private String carrier;
 
     public TimeTable() {
 
     }
 
     public TimeTable(String start, String destination, DateTime departure, DateTime arrival,
-                     String length, Double price, String tickets, Detail detail) {
+                     String length, Double price, String tickets, Detail detail, String carrier) {
         this.start = start;
         this.destination = destination;
         this.departure = departure.getMillis();
@@ -27,6 +28,7 @@ public class TimeTable extends Model {
         this.price = price;
         this.tickets = tickets;
         this.detail = detail;
+        this.carrier = carrier;
     }
 
     public String getStart() {
@@ -95,5 +97,13 @@ public class TimeTable extends Model {
 
     public void setDetail(Detail detail) {
         this.detail = detail;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
     }
 }

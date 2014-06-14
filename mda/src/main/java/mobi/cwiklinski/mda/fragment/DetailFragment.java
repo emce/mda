@@ -4,8 +4,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.joanzapata.android.iconify.Iconify;
 
 import org.joda.time.MutableDateTime;
 import org.jsoup.Jsoup;
@@ -13,6 +23,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -20,19 +31,24 @@ import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.BaseActivity;
 import mobi.cwiklinski.mda.adapter.StageAdapter;
 import mobi.cwiklinski.mda.model.Detail;
-import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.model.Stage;
 import mobi.cwiklinski.mda.model.TimeTable;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
+import mobi.cwiklinski.mda.util.TypefaceManager;
+import mobi.cwiklinski.mda.util.Util;
 
-public class DetailFragment extends BaseListFragment {
+public class DetailFragment extends BaseFragment {
 
     public static final String FRAGMENT_TAG = DetailFragment.class.getSimpleName();
     private Detail mDetail;
     private ArrayList<Stage> mList = new ArrayList<>();
     private FetchDetails mTask;
     private String mCarrier;
+    private ListView mListView;
+    private TextView mEmptyView;
+    private LinearLayout mLoader;
+    private FrameLayout mContainer;
 
     public static DetailFragment newInstance(Intent intent) {
         DetailFragment fragment = new DetailFragment();
@@ -43,46 +59,115 @@ public class DetailFragment extends BaseListFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mEmptyView = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(mEmptyView);
+        mListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+        mContainer = (FrameLayout) view.findViewById(R.id.listContainer);
+        mLoader = (LinearLayout) view.findViewById(R.id.progressContainer);
+
+
+        TextView arrow = (TextView) view.findViewById(R.id.tt_arrow);
+        arrow.setText(getResources().getBoolean(R.bool.isLandscape) ?
+            R.string.icon_arrow_bottom : R.string.icon_arrow_right);
+        TextView bus = (TextView) view.findViewById(R.id.tt_bus);
+        bus.setText(R.string.icon_bus);
+        TextView clock = (TextView) view.findViewById(R.id.tt_clock);
+        clock.setText(R.string.icon_clock);
+        TextView money = (TextView) view.findViewById(R.id.tt_money);
+        money.setText(R.string.icon_money);
+        TextView ticket = (TextView) view.findViewById(R.id.tt_ticket);
+        ticket.setText(R.string.icon_ticket);
+        TextView start = (TextView) view.findViewById(R.id.tt_start);
+        TextView startCity = (TextView) view.findViewById(R.id.tt_start_city);
+        TextView destination = (TextView) view.findViewById(R.id.tt_destination);
+        TextView destinationCity = (TextView) view.findViewById(R.id.tt_destination_city);
+        TextView length = (TextView) view.findViewById(R.id.tt_length);
+        TextView price = (TextView) view.findViewById(R.id.tt_price);
+        TextView tickets = (TextView) view.findViewById(R.id.tt_tickets);
+        TextView carrier = (TextView) view.findViewById(R.id.tt_carrier);
+        start.setTypeface(
+            getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+        destination.setTypeface(
+            getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+        Iconify.addIcons(arrow, money, clock, bus, ticket);
+
+        TimeTable item = getPreferences().getTimetable();
+        if (item != null) {
+            if (item.getDeparture() != null) {
+                start.setText(Constant.TIME_FORMAT.format(item.getDeparture().toDate()));
+            }
+            startCity.setText(item.getStart());
+            if (item.getArrival() != null) {
+                destination.setText(Constant.TIME_FORMAT.format(item.getArrival().toDate()));
+            }
+            destinationCity.setText(item.getDestination());
+            if (!TextUtils.isEmpty(item.getLength())) {
+                if (item.getLength().contains(":")) {
+                    try {
+                        String[] parts = item.getLength().split(":");
+                        if (parts.length > 1) {
+                            int hours = Integer.parseInt(parts[0]);
+                            int minutes = Integer.parseInt(parts[1]);
+                            String len = getResources().getQuantityString(R.plurals.hours, hours, hours);
+                            if (minutes > 0) {
+                                len += " " + getResources().getQuantityString(R.plurals.minutes, minutes, minutes);
+                            }
+                            length.setText(len);
+                        } else {
+                            length.setText(item.getLength());
+                        }
+                    } catch (Exception e) {
+                        length.setText(item.getLength());
+                    }
+                } else {
+                    length.setText(item.getLength());
+                }
+            }
+            if (item.getPrice() != null) {
+                if (item.getPrice() > 0) {
+                    price.setText(NumberFormat.getCurrencyInstance().format(item.getPrice()));
+                } else {
+                    price.setText(R.string.no_data);
+                }
+            }
+            if (!TextUtils.isEmpty(item.getTickets())) {
+                try {
+                    int ticketsAmount = Integer.parseInt(item.getTickets());
+                    tickets.setText(
+                        getResources().getQuantityString(R.plurals.tickets, ticketsAmount, ticketsAmount));
+                } catch (NumberFormatException e) {
+                    tickets.setText(item.getTickets());
+                }
+            }
+            if (!TextUtils.isEmpty(item.getCarrier())) {
+                carrier.setText(item.getCarrier());
+            }
+        } else {
+            view.findViewById(R.id.detail_description).setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() == null || !getArguments().containsKey(Constant.EXTRA_DETAIL)) {
             getBaseActivity().showMessage(R.string.no_required_data);
             getActivity().finish();
         } else {
-            Locality locality = getPreferences().getLocality();
-            Constant.Destination destination = getPreferences().getDestination();
-            TimeTable timeTable = getPreferences().getTimetable();
-            StringBuilder title = new StringBuilder();
-            switch (destination) {
-                case FROM_CRACOW:
-                    title.append("Kraków - ").append(locality.getName());
-                    break;
-                case TO_CRACOW:
-                    title.append(locality.getName()).append(" - Kraków");
-                    break;
-                case FROM_NOWY_SACZ:
-                    title.append("Nowy Sącz - ").append(locality.getName());
-                    break;
-                case TO_NOWY_SACZ:
-                    title.append(locality.getName()).append(" - Nowy Sącz");
-                    break;
-            }
-            title.append(" ")
-                .append(getString(R.string.at))
-                .append(" ")
-                .append(Constant.TIMEDATE_FORMAT.format(timeTable.getDeparture().toDate()));
             mDetail = (Detail) getArguments().getSerializable(Constant.EXTRA_DETAIL);
             if (savedInstanceState != null && savedInstanceState.containsKey(Constant.EXTRA_STAGE_LIST)) {
                 mList = (ArrayList<Stage>) savedInstanceState.getSerializable(Constant.EXTRA_STAGE_LIST);
-                setListAdapter(new StageAdapter(getActivity(), mList));
+                mListView.setAdapter(new StageAdapter(getActivity(), mList));
                 mCarrier = savedInstanceState.getString(Constant.EXTRA_CARRIER);
             }
             if (!isLoaded) {
+                setListShown(false);
                 mTask = new FetchDetails();
                 mTask.execute();
             }
-            getBaseActivity().setMainTitle(title.toString());
-            getBaseActivity().setSubTitle(mCarrier);
         }
     }
 
@@ -99,6 +184,39 @@ public class DetailFragment extends BaseListFragment {
         super.onSaveInstanceState(outState);
         outState.putSerializable(Constant.EXTRA_STAGE_LIST, mList);
         outState.putString(Constant.EXTRA_CARRIER, mCarrier);
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.detail;
+    }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        setActionBarItem(menu.add(R.id.menu_group_main, R.id.menu_sms, ++mMenuOrder,
+            R.string.menu_sms), Iconify.IconValue.fa_envelope);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_sms:
+                TimeTable timeTable = getPreferences().getTimetable();
+                if (timeTable != null) {
+                    startActivity(Util.sendSms(Util.generateSmsBody(getActivity(), timeTable)));
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setListShown(boolean shown) {
+        mContainer.setVisibility(shown ? View.VISIBLE : View.GONE);
+        mLoader.setVisibility(shown ? View.GONE : View.VISIBLE);
     }
 
     private class FetchDetails extends AsyncTask<Void, Void, ArrayList<Stage>> {
@@ -176,10 +294,9 @@ public class DetailFragment extends BaseListFragment {
         protected void onPostExecute(ArrayList<Stage> stages) {
             if (stages.size() > 0) {
                 mList = stages;
-                setListAdapter(new StageAdapter(getActivity(), mList));
-                getBaseActivity().setSubTitle(mCarrier);
+                mListView.setAdapter(new StageAdapter(getActivity(), mList));
             } else {
-                setEmptyText(getString(R.string.no_results));
+                mEmptyView.setText(R.string.no_results);
             }
             setListShown(true);
         }

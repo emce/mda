@@ -1,115 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/three_dips"
-    android:paddingBottom="@dimen/three_dips"
     android:background="@drawable/item_background">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            style="@style/TimeTable.Header"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/timetable_start_title" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty_dips"
+        android:gravity="center_vertical"
+        android:background="@drawable/blue_bg">
 
         <TextView
             style="@style/TimeTable.Text"
             android:id="@+id/tt_start"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:textSize="@dimen/text_twenty"
+            android:textColor="@drawable/white_text"
+            tools:text="10:00" />
 
         <TextView
-            style="@style/TimeTable.Header"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/timetable_destination_title" />
+            style="@style/TimeTable.Text"
+            android:id="@+id/tt_start_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/tt_start"
+            android:layout_toLeftOf="@+id/tt_arrow"
+            android:textSize="@dimen/text_sixteen"
+            android:textColor="@drawable/white_text"
+            tools:text="Kraków" />
+
+        <TextView
+            android:id="@+id/tt_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:paddingLeft="@dimen/five_dips"
+            android:paddingRight="@dimen/five_dips"
+            android:textColor="@drawable/white_text"
+            android:textSize="@dimen/text_twenty"
+            android:gravity="center_vertical"
+            tools:text="->" />
 
         <TextView
             style="@style/TimeTable.Text"
             android:id="@+id/tt_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_twenty"
+            android:textColor="@drawable/white_text"
+            tools:text="12:00" />
+
+        <TextView
+            style="@style/TimeTable.Text"
+            android:id="@+id/tt_destination_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tt_destination"
+            android:layout_toRightOf="@+id/tt_arrow"
+            android:gravity="right|center_vertical"
+            android:textSize="@dimen/text_sixteen"
+            android:textColor="@drawable/white_text"
+            tools:text="Katowice" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/five_dips"
+        android:paddingRight="@dimen/five_dips">
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tt_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/green_text"
+                tools:text="o"/>
+
+            <TextView
+                style="@style/TimeTable.Text"
+                android:id="@+id/tt_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_twelve"
+                tools:text="120,79zł" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tt_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/green_text"
+                tools:text="o"/>
+
+            <TextView
+                style="@style/TimeTable.Text"
+                android:id="@+id/tt_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textSize="@dimen/text_twelve"
+                tools:text="1 godz. 20 minut" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/five_dips"
+        android:paddingRight="@dimen/five_dips"
+        android:layout_marginBottom="@dimen/five_dips">
 
-        <TextView
-            style="@style/TimeTable.Header"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/timetable_length_title" />
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/TimeTable.Text"
-            android:id="@+id/tt_length"
+            <TextView
+                android:id="@+id/tt_bus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/green_text"
+                tools:text="o"/>
+
+            <TextView
+                style="@style/TimeTable.Text"
+                android:id="@+id/tt_carrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text_twelve"
+                tools:text="ABC Jan Kowalski" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/TimeTable.Header"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/timetable_price_title" />
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/TimeTable.Text"
-            android:id="@+id/tt_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
+            <TextView
+                android:id="@+id/tt_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/green_text"
+                tools:text="o"/>
 
-    </LinearLayout>
+            <TextView
+                style="@style/TimeTable.Text"
+                android:id="@+id/tt_tickets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text_twelve"
+                tools:text="brak" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/TimeTable.Header"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/timetable_tickets_title" />
-
-        <TextView
-            style="@style/TimeTable.Text"
-            android:id="@+id/tt_tickets"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3" />
+        </LinearLayout>
 
     </LinearLayout>
 

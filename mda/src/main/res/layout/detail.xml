@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/main_title"
+    <include
+        android:id="@+id/detail_description"
+        layout="@layout/timetable_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_twenty" />
+        android:layout_marginBottom="@dimen/ten_dips" />
 
-    <TextView
-        android:id="@+id/sub_title"
+    <include
+        layout="@layout/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="1"
-        android:singleLine="true" />
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
 </LinearLayout>

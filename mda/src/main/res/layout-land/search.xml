@@ -3,7 +3,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/twenty_dips"
     android:gravity="top">
 
     <AutoCompleteTextView
@@ -11,7 +10,7 @@
         android:layout_width="match_parent"
         android:hint="@string/choose_city_hint"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/twenty_dips"
+        android:layout_marginBottom="@dimen/five_dips"
         android:lines="1"
         android:singleLine="true"
         android:ellipsize="end"
@@ -23,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_auto"
         android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         android:visibility="gone">
 
         <LinearLayout
@@ -92,15 +92,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/search_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="@string/next" />
 
 </RelativeLayout>

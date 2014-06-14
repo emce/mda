@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Choose -->
-    <string name="choose_from_cracow_button">DEPARTURES from Cracow</string>
-    <string name="choose_to_cracow_button">DEPARTURES to Cracow</string>
-    <string name="choose_from_nowysacz_button">DEPARTURES from Nowy Sącz</string>
-    <string name="choose_to_nowysacz_button">DEPARTURES to Nowy Sącz</string>
+    <string name="choose_from_cracow_button">ODJAZDY\nz Krakowa</string>
+    <string name="choose_to_cracow_button">ODJAZDY\ndo Krakowa</string>
+    <string name="choose_from_nowysacz_button">ODJAZDY\nz Nowego Sącza</string>
+    <string name="choose_to_nowysacz_button">ODJAZDY\ndo Nowego Sącza</string>
 </resources>

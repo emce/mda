@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/five_dips"
+    android:background="@color/dark_green">
+
+    <TableRow>
+
+        <TextView
+            style="@style/Current.Label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/choose_city" />
+
+        <TextView
+            style="@style/Current.Value"
+            android:id="@+id/current_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/no_data"
+            tools:text="@string/app_name" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/Current.Label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/choose_district" />
+
+        <TextView
+            style="@style/Current.Value"
+            android:id="@+id/current_district"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/no_data"
+            tools:text="@string/app_name" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/Current.Label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/choose_province" />
+
+        <TextView
+            style="@style/Current.Value"
+            android:id="@+id/current_province"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/no_data"
+            tools:text="@string/app_name" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/Current.Label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/choose_community" />
+
+        <TextView
+            style="@style/Current.Value"
+            android:id="@+id/current_community"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/no_data"
+            tools:text="@string/app_name" />
+
+    </TableRow>
+
+</TableLayout>
