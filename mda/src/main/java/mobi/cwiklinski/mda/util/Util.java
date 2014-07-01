@@ -2,6 +2,8 @@ package mobi.cwiklinski.mda.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import com.joanzapata.android.iconify.Iconify;
 
 import java.text.NumberFormat;
 
+import mobi.cwiklinski.mda.BuildConfig;
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.model.TimeTable;
 
@@ -64,5 +67,9 @@ public class Util {
         }
         String body = sms.toString();
         return body.substring(0, body.length() - 2);
+    }
+
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
 }

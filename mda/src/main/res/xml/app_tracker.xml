@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+
+    <!-- Analytics Tracking Id -->
+    <string name="ga_trackingId">UA-49029742-1</string>
+
+    <!-- procent zdarzeń uwzględnianych w raportowaniu -->
+    <string name="ga_sampleFrequency">100.0</string>
+
+    <!-- automatyczne mierzenie aktywności -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- wyłapywanie i raportowanie niewyłapanych wyjątków w aplikacji -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <!-- długość sesji -->
+    <integer name="ga_sessionTimeout">-1</integer>
+
+    <!-- alternatywna lista ekranów -->
+    <screenName name="mobi.cwiklinski.mda.activity.MainActivity">MainActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.DateActivity">DateActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.DetailActivity">DetailActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.SearchActivity">SearchActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.TableActivity">TableActivity</screenName>
+
+</resources>

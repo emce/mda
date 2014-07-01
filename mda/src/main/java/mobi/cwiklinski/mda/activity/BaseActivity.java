@@ -14,16 +14,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import org.joda.time.DateTime;
 
 import java.io.IOException;
 
+import mobi.cwiklinski.mda.App;
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.net.HttpUtil;
 import mobi.cwiklinski.mda.util.Constant;
 import mobi.cwiklinski.mda.util.TypefaceManager;
 import mobi.cwiklinski.mda.util.UserPreferences;
+import mobi.cwiklinski.mda.util.Util;
 
 public class BaseActivity extends Activity {
 
@@ -49,10 +52,29 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!Util.isDebug()) {
+            ((App) getApplication()).getTracker(App.TrackerName.APP_TRACKER);
+        }
         setContentView(R.layout.fragment);
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
         TextView appTitle = (TextView) findViewById(titleId);
         appTitle.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!Util.isDebug()) {
+            GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!Util.isDebug()) {
+            GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        }
     }
 
     @Override

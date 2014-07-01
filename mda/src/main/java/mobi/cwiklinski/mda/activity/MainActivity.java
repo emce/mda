@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.fragment.ChooseFragment;
-import mobi.cwiklinski.mda.util.GoogleAnalyticsHelper;
 
 
 public class MainActivity extends BaseActivity {
@@ -14,7 +13,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getPreferences().clearApp();
-        GoogleAnalyticsHelper.activityStart(this);
         if (savedInstanceState == null) {
             mTask = new CheckConnectionTask();
             mTask.execute();
