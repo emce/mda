@@ -15,7 +15,7 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
     <!-- długość sesji -->
-    <integer name="ga_sessionTimeout">-1</integer>
+    <integer name="ga_sessionTimeout">300</integer>
 
     <!-- alternatywna lista ekranów -->
     <screenName name="mobi.cwiklinski.mda.activity.MainActivity">MainActivity</screenName>

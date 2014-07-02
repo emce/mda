@@ -6,7 +6,7 @@
     <string name="ga_logLevel">verbose</string>
 
     <!-- częstotliwość dispatchera -->
-    <integer name="ga_dispatchPeriod">30</integer>
+    <integer name="ga_dispatchPeriod">300</integer>
 
     <!-- wyłączenie śledzenia np.: do testów -->
     <bool name="ga_dryRun">false</bool>

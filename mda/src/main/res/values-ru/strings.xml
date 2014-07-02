@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">График МПА</string>
+    <string name="app_name_adfree">График МПА (нет объявлений)</string>
+    <string name="next">Далее</string>
+    <string name="no_results">Нет результатов</string>
+    <string name="no_data">Нет данных</string>
+    <string name="connection_error">Существует ошибка соединения. Пожалуйста, попробуйте еще раз.</string>
+    <string name="no_required_data">Отсутствует необходимые данные!</string>
+    <string name="at">в</string>
+    <string name="carrier">Перевозчик</string>
+    <string name="incorrect_date">Выбранные дата должна быть позже</string>
+    <string name="loading">Загрузка…</string>
+    <string name="info_about"><b>График МПА</b> является неофициальным приложение, позволяющее просматривать расписания из низших основных автобусных станций Польша..\n\n\nПомогите разработчику и купить версию с скрытых объявления - нажмите кнопку ниже:</string>
+    <string name="info_author"><b>Автор</b>: Michał Ćwikliński\nтелефон <a href="tel:+48535911111">+48 535 911 111</a>\nemail: <a href="mailto:michal@cwiklinski.mobi">michal@cwiklinski.mobi</a>\nсайт: <a href="http://www.cwiklinski.mobi">www.cwiklinski.mobi</a>\nЯ фрилансер, и я создавать приложения для устройств Android.</string>
+    <string name="close">ЗАКРЫТЬ</string>
+
+    <!-- Titles -->
+    <string name="from_cracow_button">Вылеты\nиз Краков</string>
+    <string name="to_cracow_button">Вылеты\nв Краков</string>
+    <string name="from_nowysacz_button">Вылеты\nиз Новы-Сонч</string>
+    <string name="to_nowysacz_button">Вылеты\nв Новы-Сонч</string>
+    <string name="cracow">Краков</string>
+    <string name="nowysacz">Новы-Сонч</string>
+
+    <!-- Choose -->
+    <string name="choose_from_cracow_button">из Краков</string>
+    <string name="choose_to_cracow_button">в Краков</string>
+    <string name="choose_from_nowysacz_button">из Новы-Сонч</string>
+    <string name="choose_to_nowysacz_button">в Новы-Сонч</string>
+    <string name="choose_city_hint">Начните вводить чтобы осмотреть город</string>
+    <string name="choose_destination_title">Выберите станцию ​​назначения</string>
+    <string name="choose_city_title">Выберите пункт назначения город</string>
+    <string name="choose_city">Город</string>
+    <string name="choose_province">Провинция</string>
+    <string name="choose_district">Район</string>
+    <string name="choose_community">Сообщество</string>
+    <string name="choose_date_title">Выберите время и дату</string>
+    <string name="choose_date_hint">выбрать дату</string>
+    <string name="choose_time_hint">выбрать время</string>
+    <string name="choose_date_today">сегодня</string>
+    <string name="choose_date_tomorrow">завтра</string>
+    <string name="choose_date_day_after_tomorrow">послезавтра</string>
+
+    <!-- TimeTable -->
+    <string name="timetable_start_title">Отправление</string>
+    <string name="timetable_destination_title">Прибытие</string>
+    <string name="timetable_departure_title">Время отправления</string>
+    <string name="timetable_arrival_title">Время прибытия</string>
+    <string name="timetable_length_title">Время в пути</string>
+    <string name="timetable_price_title">Цена</string>
+    <string name="timetable_tickets_title">Билеты</string>
+
+    <!-- Stage -->
+    <string name="detail_title">Путешествие подробнее</string>
+    <string name="stage_destination_title">Назначение</string>
+    <string name="stage_station_title">Станция</string>
+    <string name="stage_arrival_title">Время прибытия</string>
+    <string name="stage_price_title">Цена</string>
+
+    <!-- Menu -->
+    <string name="menu_forward">ДАЛЕЕ</string>
+    <string name="menu_sms">Отправить SMS</string>
+    <string name="menu_info">О применении</string>
+
+    <plurals name="minutes">
+        <item quantity="other">%d минут</item>
+        <item quantity="one">%d минутa</item>
+        <item quantity="many">%d минут</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">%d часa</item>
+        <item quantity="one">%d час</item>
+        <item quantity="many">%d часa</item>
+    </plurals>
+    <plurals name="tickets">
+        <item quantity="other">%d билетов</item>
+        <item quantity="one">%d билет</item>
+        <item quantity="many">%d билетов</item>
+    </plurals>
+
+</resources>

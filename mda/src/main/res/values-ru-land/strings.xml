@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="choose_from_cracow_button">Вылеты\nиз Краков</string>
+    <string name="choose_to_cracow_button">Вылеты\nв Краков</string>
+    <string name="choose_from_nowysacz_button">Вылеты\nиз Новы-Сонч</string>
+    <string name="choose_to_nowysacz_button">Вылеты\nв Новы-Сонч</string>
+</resources>
