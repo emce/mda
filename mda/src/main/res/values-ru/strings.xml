@@ -17,12 +17,9 @@
     <string name="close">ЗАКРЫТЬ</string>
 
     <!-- Titles -->
-    <string name="from_cracow_button">Вылеты\nиз Краков</string>
-    <string name="to_cracow_button">Вылеты\nв Краков</string>
-    <string name="from_nowysacz_button">Вылеты\nиз Новы-Сонч</string>
-    <string name="to_nowysacz_button">Вылеты\nв Новы-Сонч</string>
     <string name="cracow">Краков</string>
     <string name="nowysacz">Новы-Сонч</string>
+    <string name="target_searching">Поиск станции назначения</string>
 
     <!-- Choose -->
     <string name="choose_from_cracow_button">из Краков</string>
@@ -48,8 +45,8 @@
     <string name="timetable_destination_title">Прибытие</string>
     <string name="timetable_departure_title">Время отправления</string>
     <string name="timetable_arrival_title">Время прибытия</string>
-    <string name="timetable_length_title">Время в пути</string>
-    <string name="timetable_price_title">Цена</string>
+    <string name="timetable_duration_title">Время в пути:</string>
+    <string name="timetable_price_title">Цена:</string>
     <string name="timetable_tickets_title">Билеты</string>
 
     <!-- Stage -->
@@ -67,17 +64,27 @@
     <plurals name="minutes">
         <item quantity="other">%d минут</item>
         <item quantity="one">%d минутa</item>
+        <item quantity="few">%d минут</item>
         <item quantity="many">%d минут</item>
     </plurals>
     <plurals name="hours">
         <item quantity="other">%d часa</item>
         <item quantity="one">%d час</item>
+        <item quantity="few">%d часa</item>
         <item quantity="many">%d часa</item>
     </plurals>
     <plurals name="tickets">
         <item quantity="other">%d билетов</item>
         <item quantity="one">%d билет</item>
+        <item quantity="few">%d билетов</item>
         <item quantity="many">%d билетов</item>
     </plurals>
+    <string name="from_cracow">Вылеты\nиз Краков</string>
+    <string name="from_nowysacz">Вылеты\nиз Новы-Сонч</string>
+    <string name="on">на</string>
+    <string name="to_cracow">Вылеты\nв Краков</string>
+    <string name="to_nowysacz">Вылеты\nв Новы-Сонч</string>
+    <string name="target_to">до станции</string>
+    <string name="timetable_carrier_title">Носитель: </string>
 
 </resources>

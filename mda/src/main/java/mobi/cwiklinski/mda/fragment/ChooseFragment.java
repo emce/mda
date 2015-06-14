@@ -1,78 +1,109 @@
 package mobi.cwiklinski.mda.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.SearchActivity;
 import mobi.cwiklinski.mda.util.Constant;
-import mobi.cwiklinski.mda.util.TypefaceManager;
 
-public class ChooseFragment extends BaseFragment {
+public class ChooseFragment extends AbstractFragment {
 
     public static final String FRAGMENT_TAG = ChooseFragment.class.getSimpleName();
-    private Button mFromCracowButton;
-    private Button mToCracowButton;
-    private Button mFromNowySaczButton;
-    private Button mToNowySaczButton;
+    @InjectView(R.id.choose_from_cracow) CardView fromCracow;
+    @InjectView(R.id.choose_from_cracow_text) TextView fromCracowText;
+    @InjectView(R.id.choose_to_cracow) CardView toCracow;
+    @InjectView(R.id.choose_to_cracow_text) TextView toCracowText;
+    @InjectView(R.id.choose_from_nowy_sacz) CardView fromNowySacz;
+    @InjectView(R.id.choose_from_nowy_sacz_text) TextView fromNowySaczText;
+    @InjectView(R.id.choose_to_nowy_sacz) CardView toNowySacz;
+    @InjectView(R.id.choose_to_nowy_sacz_text) TextView toNowySaczText;
+    private Handler handler = new Handler();
 
     public static ChooseFragment newInstance() {
-        ChooseFragment fragment = new ChooseFragment();
-        fragment.setRetainInstance(false);
-        fragment.setHasOptionsMenu(true);
-        return fragment;
+        return new ChooseFragment();
     }
 
+    @Nullable
     @Override
-    protected int getLayoutResource() {
-        return R.layout.choose;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.choose, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mFromCracowButton = (Button) view.findViewById(R.id.cracow_choose_from);
-        mToCracowButton = (Button) view.findViewById(R.id.cracow_choose_to);
-        mFromCracowButton.setOnClickListener(new View.OnClickListener() {
+        Drawable krk = getResources().getDrawable(R.drawable.krk_bg);
+        if (krk != null) {
+            krk.setAlpha(50);
+        }
+        Drawable ns = getResources().getDrawable(R.drawable.ns_bg);
+        if (ns != null) {
+            ns.setAlpha(50);
+        }
+        fromCracow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPreferences().saveDestination(Constant.Destination.FROM_CRACOW);
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPreferences().saveDestination(Constant.Destination.FROM_CRACOW);
+                        startActivity(new Intent(getActivity(), SearchActivity.class));
+                    }
+                }, 300);
             }
         });
-        mToCracowButton.setOnClickListener(new View.OnClickListener() {
+        fromCracowText.setBackgroundDrawable(krk);
+        toCracow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPreferences().saveDestination(Constant.Destination.TO_CRACOW);
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPreferences().saveDestination(Constant.Destination.TO_CRACOW);
+                        startActivity(new Intent(getActivity(), SearchActivity.class));
+                    }
+                }, 300);
             }
         });
-        mFromNowySaczButton = (Button) view.findViewById(R.id.nowysacz_choose_from);
-        mToNowySaczButton = (Button) view.findViewById(R.id.nowysacz_choose_to);
-        mFromNowySaczButton.setOnClickListener(new View.OnClickListener() {
+        toCracowText.setBackgroundDrawable(krk);
+        fromNowySacz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPreferences().saveDestination(Constant.Destination.FROM_NOWY_SACZ);
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPreferences().saveDestination(Constant.Destination.FROM_NOWY_SACZ);
+                        startActivity(new Intent(getActivity(), SearchActivity.class));
+                    }
+                }, 300);
             }
         });
-        mToNowySaczButton.setOnClickListener(new View.OnClickListener() {
+        fromNowySaczText.setBackgroundDrawable(ns);
+        toNowySacz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPreferences().saveDestination(Constant.Destination.TO_NOWY_SACZ);
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPreferences().saveDestination(Constant.Destination.TO_NOWY_SACZ);
+                        startActivity(new Intent(getActivity(), SearchActivity.class));
+                    }
+                }, 300);
             }
         });
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mFromCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-        mToCracowButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-        mFromNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
-        mToNowySaczButton.setTypeface(getTypefaceManager().getTypeface(TypefaceManager.FontFace.ROBOTO_BOLD));
+        toNowySaczText.setBackgroundDrawable(ns);
     }
 }

@@ -2,12 +2,14 @@ package mobi.cwiklinski.mda.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,43 +17,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.kevinsawicki.http.HttpRequest;
-import com.google.gson.reflect.TypeToken;
-import com.joanzapata.android.iconify.Iconify;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.DateActivity;
 import mobi.cwiklinski.mda.adapter.LocalityRemoteAdapter;
+import mobi.cwiklinski.mda.event.SearchResultEvent;
 import mobi.cwiklinski.mda.model.Locality;
-import mobi.cwiklinski.mda.net.HttpUtil;
+import mobi.cwiklinski.mda.net.DataService;
+import mobi.cwiklinski.mda.util.ActivityHelper;
 import mobi.cwiklinski.mda.util.Constant;
 
-public class SearchFragment extends BaseFragment implements TextWatcher {
+public class SearchFragment extends AbstractFragment implements TextWatcher {
 
     public static final String FRAGMENT_TAG = SearchFragment.class.getSimpleName();
-    private AutoCompleteTextView mSuggest;
-    private TextView mCity;
-    private TextView mProvince;
-    private TextView mDistrict;
-    private TextView mCommunity;
-    private LinearLayout mInfo;
+    @InjectView(R.id.search_auto) AppCompatAutoCompleteTextView mSuggest;
+    @InjectView(R.id.search_city) TextView mCity;
+    @InjectView(R.id.search_province) TextView mProvince;
+    @InjectView(R.id.search_district) TextView mDistrict;
+    @InjectView(R.id.search_community) TextView mCommunity;
+    @InjectView(R.id.search_info) LinearLayout mInfo;
     private Locality mCurrentLocality;
     private Constant.Destination mDestination = Constant.Destination.FROM_CRACOW;
-    private FetchLocalityTask mTask;
-    private boolean load = false;
+    private boolean settled = false;
 
     public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        fragment.setRetainInstance(true);
-        fragment.setHasOptionsMenu(true);
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override
@@ -65,38 +60,39 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
         }
     }
 
+    @Nullable
     @Override
-    protected int getLayoutResource() {
-        return R.layout.search;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getTypefaceManager().parse((ViewGroup) view);
-        mSuggest = (AutoCompleteTextView) view.findViewById(R.id.search_auto);
-        mInfo = (LinearLayout) view.findViewById(R.id.search_info);
-        mCity = (TextView) view.findViewById(R.id.search_city);
-        mProvince = (TextView) view.findViewById(R.id.search_province);
-        mDistrict = (TextView) view.findViewById(R.id.search_district);
-        mCommunity = (TextView) view.findViewById(R.id.search_community);
-        mSuggest.addTextChangedListener(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.search, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mSuggest.addTextChangedListener(this);
+        mSuggest.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mSuggest.addTextChangedListener(SearchFragment.this);
+                }
+            }
+        });
         mSuggest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (view != null && view.getTag() != null) {
+                    mSuggest.removeTextChangedListener(SearchFragment.this);
+                    settled = true;
                     mCurrentLocality = (Locality) view.getTag();
                     fillLocality();
-                    load = true;
                     mSuggest.setText(mCurrentLocality.getName());
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mSuggest.getWindowToken(), 0);
+                    mSuggest.clearFocus();
                 }
             }
         });
@@ -108,14 +104,13 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
         if (mDestination != null) {
             fillLocality();
         }
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mTask != null) {
-            mTask.cancel(true);
-        }
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -131,9 +126,9 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         if (mCurrentLocality != null) {
-            MenuItem near = menu.add(R.id.menu_group_main, R.id.menu_forward, ++mMenuOrder,
+            MenuItem forward = menu.add(R.id.menu_group_main, R.id.menu_forward, ++mMenuOrder,
                 R.string.menu_forward);
-            setActionBarItem(near, Iconify.IconValue.fa_arrow_circle_right);
+            ActivityHelper.setMenuItem(forward, R.drawable.ic_menu_forward);
         }
     }
 
@@ -170,7 +165,7 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
                 mCommunity.setText(R.string.no_data);
             }
             mInfo.setVisibility(View.VISIBLE);
-            getActivity().invalidateOptionsMenu();
+            getActivity().supportInvalidateOptionsMenu();
         }
     }
 
@@ -179,59 +174,25 @@ public class SearchFragment extends BaseFragment implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (!load && s.length() > 3) {
-            if (mTask != null) {
-                mTask.cancel(true);
-            }
-            mTask = new FetchLocalityTask();
-            mTask.execute(s.toString());
+        if (s.length() > 3) {
+            getBaseActivity().showProgress();
+            settled = false;
+            DataService.startSearch(getActivity(), s.toString());
         }
-        load = false;
     }
 
     @Override
     public void afterTextChanged(Editable s) { }
 
-    private class FetchLocalityTask extends AsyncTask<String, Void, ArrayList<Locality>> {
-
-        @Override
-        protected ArrayList<Locality> doInBackground(String... params) {
-            HttpUtil util = HttpUtil.getInstance();
-            String text = params[0];
-            try {
-                return util
-                    .setMethod(HttpUtil.Method.GET)
-                    .setUrl("http://rozklady.mda.malopolska.pl/ws/getCity.php?miejscowosc=" + text)
-                    .setCookieFromPreferences(getPreferences())
-                    .connect()
-                    .getObjects(new TypeToken<ArrayList<Locality>>() {
-                    });
-            } catch (IOException | HttpRequest.HttpRequestException e) {
-                notifyConnectionError();
-            }
-            return new ArrayList<>();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            mSuggest.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                getResources().getDrawable(R.drawable.loading), null);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Locality> localities) {
-            Log.e(FRAGMENT_TAG, "loaded localities: " + localities.size());
-            if (localities.size() > 0) {
-                mSuggest.setAdapter(new LocalityRemoteAdapter(getActivity(), localities));
+    public void onEventMainThread(SearchResultEvent event) {
+        if (!settled && mSuggest.hasFocus()) {
+            if (event.getResult().size() > 0) {
+                Log.e(FRAGMENT_TAG, "loaded localities: " + event.getResult().size());
+                mSuggest.setAdapter(new LocalityRemoteAdapter(getActivity(), event.getResult()));
                 mSuggest.invalidate();
                 mSuggest.showDropDown();
             }
-            mSuggest.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
-
-        @Override
-        protected void onCancelled() {
-            mSuggest.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        }
+        getBaseActivity().hideProgress();
     }
 }

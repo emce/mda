@@ -24,6 +24,9 @@
     <string name="to_nowysacz">ODJAZDY do Nowego Sącza</string>
     <string name="cracow">Kraków</string>
     <string name="nowysacz">Nowy Sącz</string>
+    <string name="target_searching">Wyszukiwanie stacji docelowej</string>
+    <string name="target_to">do stacji %1$s</string>
+    <string name="on">na</string>
 
     <!-- Choose -->
     <string name="choose_from_cracow_button">ODJAZDY z Krakowa</string>
@@ -49,9 +52,10 @@
     <string name="timetable_destination_title">Przyjazd</string>
     <string name="timetable_departure_title">Godzina odjazdu</string>
     <string name="timetable_arrival_title">Godzina przyjazdu</string>
-    <string name="timetable_length_title">Czas podróży</string>
-    <string name="timetable_price_title">Cena</string>
-    <string name="timetable_tickets_title">Bilety</string>
+    <string name="timetable_duration_title">Czas podróży: </string>
+    <string name="timetable_price_title">Cena: </string>
+    <string name="timetable_carrier_title">Przewoźnik: </string>
+    <string name="timetable_tickets_title">Bilety: </string>
 
     <!-- Stage -->
     <string name="detail_title">Szczegóły kursu</string>

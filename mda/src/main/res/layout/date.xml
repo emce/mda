@@ -12,19 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/date_date"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/ten_dips"
-        android:drawablePadding="@dimen/five_dips"
-        android:paddingRight="@dimen/thirty_dips"
-        tools:text="29 czerwca 2012"/>
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/margin_small">
 
-    <TimePicker
-        android:id="@+id/date_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/date_date"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:drawablePadding="@dimen/five_dips"
+            android:paddingRight="@dimen/margin_small"
+            tools:text="29 czerwca 2012"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/date_time"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:drawablePadding="@dimen/five_dips"
+            android:paddingLeft="@dimen/margin_small" />
+
+    </LinearLayout>
 
 </LinearLayout>

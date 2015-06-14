@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingPrefix"
+    android:id="@+id/base"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ToolbarStandard"
+        android:background="@color/primary" />
+
+    <FrameLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:background="@color/primary_trans">
+
+            <ProgressBar
+                android:layout_width="@dimen/hundred_dips"
+                android:layout_height="@dimen/hundred_dips"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:adSize="BANNER"
+        app:adUnitId="@string/admobId"/>
+
+</LinearLayout>

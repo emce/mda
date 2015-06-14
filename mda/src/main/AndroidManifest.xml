@@ -26,7 +26,7 @@
         android:name=".App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
@@ -39,16 +39,36 @@
         </activity>
         <activity
             android:name=".activity.SearchActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity
             android:name=".activity.DateActivity"
-            android:parentActivityName=".activity.SearchActivity" />
+            android:parentActivityName=".activity.SearchActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SearchActivity" />
+        </activity>
         <activity
             android:name=".activity.TableActivity"
-            android:parentActivityName=".activity.DateActivity" />
+            android:parentActivityName=".activity.DateActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.DateActivity" />
+        </activity>
         <activity
             android:name=".activity.DetailActivity"
-            android:parentActivityName=".activity.TableActivity" />
+            android:parentActivityName=".activity.TableActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.TableActivity" />
+        </activity>
+
+        <service
+            android:name=".net.DataService"
+            android:exported="false" />
 
         <!-- Activity required to show ad overlays. -->
         <activity
@@ -58,6 +78,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
             android:resource="@xml/global_tracker" />
 

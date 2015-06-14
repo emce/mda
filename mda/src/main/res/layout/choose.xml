@@ -1,64 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/cracow_choose_from"
+    <android.support.v7.widget.CardView
+        android:id="@+id/choose_from_cracow"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="left|center_vertical"
-        android:layout_margin="@dimen/three_dips"
-        android:drawableLeft="@drawable/krakow"
-        android:drawablePadding="@dimen/ten_dips"
-        android:paddingLeft="@dimen/twenty_dips"
-        android:paddingTop="@dimen/twenty_dips"
-        android:paddingBottom="@dimen/twenty_dips"
-        android:text="@string/choose_from_cracow_button" />
+        android:layout_height="0dip"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/cracow_choose_to"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="right|center_vertical"
-        android:layout_margin="@dimen/three_dips"
-        android:drawableRight="@drawable/krakow"
-        android:drawablePadding="@dimen/five_dips"
-        android:paddingLeft="@dimen/twenty_dips"
-        android:paddingTop="@dimen/twenty_dips"
-        android:paddingBottom="@dimen/twenty_dips"
-        android:text="@string/choose_to_cracow_button" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/choose_from_cracow_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/margin_small"
+            android:drawableLeft="@drawable/krakow"
+            fontPath="RobotoCondensed-Bold.ttf"
+            android:gravity="center"
+            android:padding="@dimen/margin_small"
+            android:background="@drawable/krk_bg"
+            android:textSize="@dimen/text_normal"
+            android:text="@string/choose_from_cracow_button" />
 
-    <Button
-        android:id="@+id/nowysacz_choose_from"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="left|center_vertical"
-        android:drawableLeft="@drawable/nowy_sacz"
-        android:drawablePadding="@dimen/five_dips"
-        android:layout_margin="@dimen/three_dips"
-        android:paddingLeft="@dimen/twenty_dips"
-        android:paddingTop="@dimen/twenty_dips"
-        android:paddingBottom="@dimen/twenty_dips"
-        android:text="@string/choose_from_nowysacz_button" />
+    </android.support.v7.widget.CardView>
 
-    <Button
-        android:id="@+id/nowysacz_choose_to"
+    <android.support.v7.widget.CardView
+        android:id="@+id/choose_to_cracow"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0dip"
         android:layout_weight="1"
-        android:gravity="right|center_vertical"
-        android:drawableRight="@drawable/nowy_sacz"
-        android:drawablePadding="@dimen/five_dips"
-        android:layout_margin="@dimen/three_dips"
-        android:paddingLeft="@dimen/twenty_dips"
-        android:paddingTop="@dimen/twenty_dips"
-        android:paddingBottom="@dimen/twenty_dips"
-        android:text="@string/choose_to_nowysacz_button" />
+        android:background="@drawable/krk_bg">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/choose_to_cracow_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_small"
+            android:drawablePadding="@dimen/margin_small"
+            android:drawableRight="@drawable/krakow"
+            fontPath="RobotoCondensed-Bold.ttf"
+            android:gravity="center"
+            android:textSize="@dimen/text_normal"
+            android:background="@drawable/krk_bg"
+            android:text="@string/choose_to_cracow_button" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/choose_from_nowy_sacz"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/choose_from_nowy_sacz_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_small"
+            android:drawablePadding="@dimen/margin_small"
+            android:drawableLeft="@drawable/nowy_sacz"
+            fontPath="RobotoCondensed-Bold.ttf"
+            android:textSize="@dimen/text_normal"
+            android:gravity="center"
+            android:background="@drawable/ns_bg"
+            android:text="@string/choose_from_nowysacz_button" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/choose_to_nowy_sacz"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/choose_to_nowy_sacz_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_small"
+            android:drawablePadding="@dimen/margin_small"
+            android:drawableRight="@drawable/nowy_sacz"
+            fontPath="RobotoCondensed-Bold.ttf"
+            android:textSize="@dimen/text_normal"
+            android:gravity="center"
+            android:background="@drawable/ns_bg"
+            android:text="@string/choose_to_nowysacz_button" />
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

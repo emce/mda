@@ -23,6 +23,7 @@
     <string name="to_nowysacz">DEPARTURES to Nowy Sącz</string>
     <string name="cracow">Cracow</string>
     <string name="nowysacz">Nowy Sącz</string>
+    <string name="target_searching">Searching target station</string>
 
     <!-- Choose -->
     <string name="choose_from_cracow_button">from Cracow</string>
@@ -48,9 +49,9 @@
     <string name="timetable_destination_title">Arrival</string>
     <string name="timetable_departure_title">Departure time</string>
     <string name="timetable_arrival_title">Arrival time</string>
-    <string name="timetable_length_title">Travel time</string>
-    <string name="timetable_price_title">Price</string>
-    <string name="timetable_tickets_title">Tickets</string>
+    <string name="timetable_duration_title">Travel time:</string>
+    <string name="timetable_price_title">Price:</string>
+    <string name="timetable_tickets_title">Tickets:</string>
 
     <!-- Stage -->
     <string name="detail_title">Journey details</string>
@@ -76,5 +77,8 @@
         <item quantity="other">%d tickets</item>
         <item quantity="one">1 ticket</item>
     </plurals>
+    <string name="on">on</string>
+    <string name="target_to">to station %1$s</string>
+    <string name="timetable_carrier_title">Carrier</string>
 
 </resources>

@@ -1,15 +1,12 @@
 package mobi.cwiklinski.mda.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-
-import com.joanzapata.android.iconify.IconDrawable;
-import com.joanzapata.android.iconify.Iconify;
+import android.view.View;
 
 import java.text.NumberFormat;
 
@@ -24,12 +21,6 @@ public class Util {
         sendIntent.setData(Uri.parse("sms:"));
         sendIntent.putExtra("sms_body", body);
         return sendIntent;
-    }
-
-    public static Drawable fontToDrawable(Context context, Iconify.IconValue icon, int color, int size) {
-        return new IconDrawable(context, icon)
-            .colorRes(color)
-            .sizeRes(size);
     }
 
     public static String generateSmsBody(Context context, TimeTable timeTable) {
@@ -71,5 +62,17 @@ public class Util {
 
     public static boolean isDebug() {
         return BuildConfig.DEBUG;
+    }
+
+    public static void messageWithClose(Activity activity, String message) {
+        Snackbar
+            .make(activity.getWindow().getDecorView().getRootView(), message, Snackbar.LENGTH_LONG)
+            .setAction(R.string.close, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            })
+            .show();
     }
 }

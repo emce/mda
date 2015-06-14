@@ -5,6 +5,8 @@
     <!-- Analytics Tracking Id -->
     <string name="ga_trackingId">UA-49029742-1</string>
 
+    <string name="ga_appVersion">1.4</string>
+
     <!-- procent zdarzeń uwzględnianych w raportowaniu -->
     <string name="ga_sampleFrequency">100.0</string>
 
@@ -15,9 +17,10 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
     <!-- długość sesji -->
-    <integer name="ga_sessionTimeout">300</integer>
+    <integer name="ga_sessionTimeout">-1</integer>
 
     <!-- alternatywna lista ekranów -->
+
     <screenName name="mobi.cwiklinski.mda.activity.MainActivity">MainActivity</screenName>
     <screenName name="mobi.cwiklinski.mda.activity.DateActivity">DateActivity</screenName>
     <screenName name="mobi.cwiklinski.mda.activity.DetailActivity">DetailActivity</screenName>

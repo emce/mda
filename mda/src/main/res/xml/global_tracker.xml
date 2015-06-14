@@ -2,16 +2,27 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
+    <string name="ga_trackingId">UA-49029742-1</string>
+
+    <string name="ga_appVersion">1.4</string>
+
+    <bool name="ga_autoActivityTracking">true</bool>
+
     <!-- poziom logowania -->
     <string name="ga_logLevel">verbose</string>
 
     <!-- częstotliwość dispatchera -->
-    <integer name="ga_dispatchPeriod">300</integer>
+    <integer name="ga_dispatchPeriod">30</integer>
 
     <!-- wyłączenie śledzenia np.: do testów -->
     <bool name="ga_dryRun">false</bool>
 
     <!-- definicje ekranów -->
-    <string name="mobi.cwiklinski.MainActivity">Main Activity</string>
+
+    <screenName name="mobi.cwiklinski.mda.activity.MainActivity">MainActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.DateActivity">DateActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.DetailActivity">DetailActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.SearchActivity">SearchActivity</screenName>
+    <screenName name="mobi.cwiklinski.mda.activity.TableActivity">TableActivity</screenName>
 
 </resources>

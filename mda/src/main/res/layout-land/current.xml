@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/five_dips"
-    android:background="@color/dark_green">
+    android:background="@color/primary_dark">
 
         <TextView
             style="@style/Current.LabelLeft"

@@ -1,13 +1,14 @@
 package mobi.cwiklinski.mda.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.ActionMode;
-import android.view.Menu;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -15,39 +16,31 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.kevinsawicki.http.HttpRequest;
-import com.joanzapata.android.iconify.Iconify;
-
 import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.activity.DetailActivity;
 import mobi.cwiklinski.mda.adapter.TimeTableAdapter;
-import mobi.cwiklinski.mda.model.Detail;
+import mobi.cwiklinski.mda.event.BusDataEvent;
 import mobi.cwiklinski.mda.model.Locality;
 import mobi.cwiklinski.mda.model.TimeTable;
-import mobi.cwiklinski.mda.net.HttpUtil;
+import mobi.cwiklinski.mda.net.DataService;
+import mobi.cwiklinski.mda.util.ActivityHelper;
 import mobi.cwiklinski.mda.util.Constant;
-import mobi.cwiklinski.mda.util.UserPreferences;
 import mobi.cwiklinski.mda.util.Util;
 
-public class TableFragment extends BaseFragment implements ActionMode.Callback, AdapterView.OnItemClickListener {
+public class TableFragment extends AbstractFragment implements AdapterView.OnItemClickListener {
 
     public static final String FRAGMENT_TAG = TableFragment.class.getSimpleName();
     private Locality mLocality;
-    private FetchBusDataTask mTask;
     private Constant.Destination mDestination;
     private DateTime mDate;
     private ArrayList<TimeTable> mTimeTables = new ArrayList<>();
@@ -77,11 +70,23 @@ public class TableFragment extends BaseFragment implements ActionMode.Callback, 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-        if (mTask != null) {
-            mTask.cancel(true);
-        }
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.list, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
@@ -92,13 +97,15 @@ public class TableFragment extends BaseFragment implements ActionMode.Callback, 
         mListView.setEmptyView(mEmptyView);
         mListView.setOnItemClickListener(this);
         mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        mContainer = (FrameLayout) view.findViewById(R.id.listContainer);
-        mLoader = (LinearLayout) view.findViewById(R.id.progressContainer);
+        mContainer = (FrameLayout) view.findViewById(R.id.list_container);
+        mLoader = (LinearLayout) view.findViewById(R.id.progress_container);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mListView.setDivider(getResources().getDrawable(R.drawable.divider));
+        mListView.setDividerHeight(getResources().getDimensionPixelSize(R.dimen.one));
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(Constant.EXTRA_TIMETABLE_LIST)) {
                 mTimeTables = (ArrayList<TimeTable>) savedInstanceState.getSerializable(
@@ -106,11 +113,43 @@ public class TableFragment extends BaseFragment implements ActionMode.Callback, 
                 mListView.setAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
             }
         }
-        mListView.setDivider(null);
         if (!isLoaded) {
             setListShown(false);
-            mTask = new FetchBusDataTask();
-            mTask.execute();
+            DataService.fetchBus(getActivity(), prepareTimeTableUrl());
+        }
+        registerForContextMenu(mListView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == android.R.id.list) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            TimeTable timeTable = mTimeTables.get(info.position);
+            menu.setHeaderTitle(timeTable.getStart() + " "
+                + Constant.TIME_FORMAT.format(timeTable.getDeparture().toDate())
+                + " -> " + timeTable.getDestination() + " "
+                + Constant.TIME_FORMAT.format(timeTable.getArrival().toDate()));
+            ActivityHelper.setMenuItem(menu.add(R.id.menu_group_main,
+                R.id.menu_details, ++mMenuOrder, R.string.detail_title), R.drawable.ic_menu_details);
+            ActivityHelper.setMenuItem(menu.add(R.id.menu_group_main,
+                R.id.menu_sms, ++mMenuOrder, R.string.menu_sms), R.drawable.ic_menu_message);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.menu_details:
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(Constant.EXTRA_DETAIL, mTimeTables.get(info.position).getDetail());
+                startActivity(intent);
+                return true;
+            case R.id.menu_sms:
+                startActivity(Util.sendSms(Util.generateSmsBody(getActivity(), mTimeTables.get(info.position))));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
@@ -121,54 +160,6 @@ public class TableFragment extends BaseFragment implements ActionMode.Callback, 
             outState.putSerializable(Constant.EXTRA_TIMETABLE_LIST, mTimeTables);
         }
         outState.putInt(Constant.EXTRA_POSITION, currentPosition);
-    }
-
-    @Override
-    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        if (actionMode != null) {
-            setActionBarItem(menu.add(R.id.menu_group_main, R.id.menu_details, ++mMenuOrder,
-                R.string.detail_title), Iconify.IconValue.fa_list_alt);
-            setActionBarItem(menu.add(R.id.menu_group_main, R.id.menu_sms, ++mMenuOrder,
-                R.string.menu_sms), Iconify.IconValue.fa_envelope);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem item) {
-        if (currentPosition >= 0) {
-            TimeTable timeTable = mTimeTables.get(currentPosition);
-            if (item != null && timeTable != null) {
-                switch (item.getItemId()) {
-                    case R.id.menu_details:
-                        Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        intent.putExtra(Constant.EXTRA_DETAIL, timeTable.getDetail());
-                        startActivity(intent);
-                        if (actionMode != null) {
-                            actionMode.finish();
-                        }
-                        return true;
-                    case R.id.menu_sms:
-                        startActivity(Util.sendSms(Util.generateSmsBody(getActivity(), timeTable)));
-                        if (actionMode != null) {
-                            actionMode.finish();
-                        }
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        currentPosition = -10;
     }
 
     private String prepareTimeTableUrl() {
@@ -194,32 +185,11 @@ public class TableFragment extends BaseFragment implements ActionMode.Callback, 
         return "";
     }
 
-    private int getCityResource() {
-        switch (mDestination) {
-            case FROM_NOWY_SACZ:
-            case TO_NOWY_SACZ:
-                return R.string.nowysacz;
-            default:
-                return R.string.cracow;
-        }
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        currentPosition = position;
-        TimeTable timeTable = mTimeTables.get(currentPosition);
-        getPreferences().saveTimetable(timeTable);
-        if (mActionMode != null) {
-            mActionMode.finish();
-        }
-        if (getBaseActivity() != null) {
-            mActionMode = getBaseActivity().startActionMode(this);
-        }
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.list;
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(Constant.EXTRA_DETAIL, mTimeTables.get(position).getDetail());
+        startActivity(intent);
     }
 
     private void setListShown(boolean shown) {
@@ -227,109 +197,16 @@ public class TableFragment extends BaseFragment implements ActionMode.Callback, 
         mLoader.setVisibility(shown ? View.GONE : View.VISIBLE);
     }
 
-    private class FetchBusDataTask extends AsyncTask<Void, Void, ArrayList<TimeTable>> {
-
-        @Override
-        protected ArrayList<TimeTable> doInBackground(Void... params) {
-            ArrayList<TimeTable> list = new ArrayList<>();
-            HttpUtil util = HttpUtil.getInstance();
-            try {
-                util
-                    .setUrl("http://rozklady.mda.malopolska.pl/ws/getBusSchedule.php?data="
-                        + prepareTimeTableUrl())
-                    .setCookieFromPreferences(new UserPreferences(getActivity()))
-                    .connect();
-                if (util.getJSONObject() != null && util.getJSONObject().has("html")) {
-                    try {
-                        Document doc = Jsoup.parse(util.getJSONObject().getString("html"));
-                        Element table = doc.getElementById("rozklad");
-                        int i = 0;
-                        int j = 0;
-                        if (table != null) {
-                            for (Element tr : table.getElementsByTag("tr")) {
-                                if (tr.getElementsByTag("td").size() > 0) {
-                                    TimeTable timeTable = new TimeTable();
-                                    for (Element td : tr.getElementsByTag("td")) {
-                                        try {
-                                            switch (i) {
-                                                case 0:
-                                                    if (mDestination.equals(Constant.Destination.TO_CRACOW)
-                                                        || mDestination.equals(Constant.Destination.TO_NOWY_SACZ)) {
-                                                        timeTable.setCarrier(td.text().replace(mLocality.getName() + " ", ""));
-                                                        timeTable.setStart(mLocality.getName());
-                                                    } else {
-                                                        for (Element b : td.getElementsByTag("b")) {
-                                                            timeTable.setCarrier(b.text());
-                                                        }
-                                                        timeTable.setStart(getString(getCityResource()));
-                                                    }
-                                                    break;
-                                                case 1:
-                                                    if (mDestination.equals(Constant.Destination.TO_CRACOW)
-                                                        || mDestination.equals(Constant.Destination.TO_NOWY_SACZ)) {
-                                                        timeTable.setDestination(getString(getCityResource()));
-                                                    } else {
-                                                        timeTable.setDestination(mLocality.getName());
-                                                    }
-                                                    break;
-                                                case 2:
-                                                    timeTable.setDeparture(new MutableDateTime(
-                                                        Constant.FULL_DATETIME_FORMAT.parse(td.text())).toDateTime());
-                                                    break;
-                                                case 3:
-                                                    timeTable.setArrival(new MutableDateTime(
-                                                        Constant.FULL_DATETIME_FORMAT.parse(td.text())).toDateTime());
-                                                    break;
-                                                case 4:
-                                                    timeTable.setLength(td.text());
-                                                    break;
-                                                case 5:
-                                                    timeTable.setPrice(Double.parseDouble(td.text().replace(",", ".")));
-                                                    break;
-                                                case 6:
-                                                    timeTable.setTickets(td.text());
-                                                    break;
-                                                case 7:
-                                                    String url = td.getElementsByTag("a").attr("id");
-                                                    Detail detail = Detail.parseFromString(url);
-                                                    timeTable.setDetail(detail);
-                                                    break;
-                                            }
-                                        } catch (IllegalArgumentException | ParseException e) {
-                                            e.printStackTrace();
-                                        }
-                                        i++;
-                                    }
-                                    i = 0;
-                                    list.add(j, timeTable);
-                                    j++;
-                                }
-                            }
-                        } else {
-                            mMessage = doc.getElementsByTag("p").text();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (IOException | HttpRequest.HttpRequestException e) {
-                notifyConnectionError();
+    public void onEventMainThread(BusDataEvent event) {
+        if (event.getBusData().size() > 0) {
+            mTimeTables = event.getBusData();
+            mListView.setAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
+        } else {
+            if (!TextUtils.isEmpty(mMessage)) {
+                mEmptyView.setText(mMessage);
+                mMessage = null;
             }
-            return list;
         }
-
-        @Override
-        protected void onPostExecute(ArrayList<TimeTable> timeTables) {
-            if (timeTables.size() > 0) {
-                mTimeTables = timeTables;
-                mListView.setAdapter(new TimeTableAdapter(getActivity(), mTimeTables));
-            } else {
-                if (!TextUtils.isEmpty(mMessage)) {
-                    mEmptyView.setText(mMessage);
-                    mMessage = null;
-                }
-            }
-            setListShown(true);
-        }
+        setListShown(true);
     }
 }

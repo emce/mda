@@ -16,7 +16,8 @@ public interface Constant {
     String EXTRA_DETAIL = "detail";
     String EXTRA_STAGE_LIST = "stage_list";
     String EXTRA_CARRIER = "carrier";
-    String EXTRA_LOADED = "loaded";
+    String EXTRA_DATA_ACTION = "data_action";
+    String EXTRA_DATA_DATA = "data_data";
     String EXTRA_DATETIME = "datetime";
     String EXTRA_POSITION = "position";
 

@@ -1,21 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
+    <LinearLayout
         android:id="@+id/detail_description"
-        layout="@layout/timetable_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ten_dips" />
+        android:orientation="vertical"
+        android:background="@color/primary_dark"
+        android:gravity="center"
+        android:padding="@dimen/ten_dips">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/five_dips"
+                android:textColor="@android:color/white"
+                android:text="@string/timetable_price_title" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/detail_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                fontPath="RobotoCondensed-Bold.ttf"
+                android:textColor="@color/text_accent"
+                tools:text="26.00$" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/five_dips"
+                android:textColor="@android:color/white"
+                android:text="@string/timetable_carrier_title" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/detail_carrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                fontPath="RobotoCondensed-Bold.ttf"
+                android:textColor="@color/text_accent"
+                tools:text="Jan Kowalski BUSY" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/five_dips"
+                android:textColor="@android:color/white"
+                android:text="@string/timetable_tickets_title" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/detail_tickets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                fontPath="RobotoCondensed-Bold.ttf"
+                android:textColor="@color/text_accent"
+                tools:text="48" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/five_dips"
+                android:textColor="@android:color/white"
+                android:text="@string/timetable_duration_title" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/detail_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                fontPath="RobotoCondensed-Bold.ttf"
+                android:textColor="@color/text_accent"
+                tools:text="1 godzina 13 minut" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <include
         layout="@layout/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5" />
+        android:layout_weight="1" />
 
 </LinearLayout>
