@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.model.TimeTable;
@@ -92,7 +93,7 @@ public class TimeTableAdapter extends BaseAdapter {
         }
         if (item.getPrice() != null) {
             if (item.getPrice() > 0) {
-                viewHolder.price.setText(NumberFormat.getCurrencyInstance().format(item.getPrice()));
+                viewHolder.price.setText(NumberFormat.getCurrencyInstance(new Locale("pl")).format(item.getPrice()));
             } else {
                 viewHolder.price.setText(R.string.no_data);
             }

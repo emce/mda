@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -109,7 +110,7 @@ public class DetailFragment extends AbstractFragment {
             }
             if (item.getPrice() != null) {
                 if (item.getPrice() > 0) {
-                    price.setText(NumberFormat.getCurrencyInstance().format(item.getPrice()));
+                    price.setText(NumberFormat.getCurrencyInstance(new Locale("pl")).format(item.getPrice()));
                 } else {
                     price.setText(R.string.no_data);
                 }

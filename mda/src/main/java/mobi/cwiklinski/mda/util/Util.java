@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import mobi.cwiklinski.mda.BuildConfig;
 import mobi.cwiklinski.mda.R;
@@ -40,7 +41,7 @@ public class Util {
         sms.append(", ");
         if (timeTable.getPrice() != null) {
             if (timeTable.getPrice() > 0) {
-                sms.append(NumberFormat.getCurrencyInstance().format(timeTable.getPrice()))
+                sms.append(NumberFormat.getCurrencyInstance(new Locale("pl")).format(timeTable.getPrice()))
                     .append(", ");
             }
         }

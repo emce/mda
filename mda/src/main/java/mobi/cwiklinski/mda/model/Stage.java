@@ -6,7 +6,7 @@ public class Stage extends Model {
 
     private String destination;
     private String station;
-    private DateTime arrival;
+    private Long arrival;
     private String price;
 
     public Stage() { }
@@ -14,7 +14,7 @@ public class Stage extends Model {
     public Stage(String destination, String station, DateTime arrival, String price) {
         this.destination = destination;
         this.station = station;
-        this.arrival = arrival;
+        this.arrival = arrival.getMillis();
         this.price = price;
     }
 
@@ -35,11 +35,11 @@ public class Stage extends Model {
     }
 
     public DateTime getArrival() {
-        return arrival;
+        return new DateTime(arrival);
     }
 
     public void setArrival(DateTime arrival) {
-        this.arrival = arrival;
+        this.arrival = arrival.getMillis();
     }
 
     public String getPrice() {
@@ -49,4 +49,6 @@ public class Stage extends Model {
     public void setPrice(String price) {
         this.price = price;
     }
+
+
 }
