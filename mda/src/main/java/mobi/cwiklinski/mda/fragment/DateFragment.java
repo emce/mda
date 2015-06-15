@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -82,7 +83,9 @@ public class DateFragment extends AbstractFragment {
                         }
                     }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
                 );
-                dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
                 dpd.show();
             }
         });
@@ -104,7 +107,9 @@ public class DateFragment extends AbstractFragment {
                         }
                     }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MONTH), true
                 );
-                dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
                 dpd.show();
             }
         });

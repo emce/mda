@@ -60,6 +60,7 @@ abstract public class AbstractActivity extends AppCompatActivity {
             ((App) getApplication()).getTracker(App.TrackerName.APP_TRACKER);
         }
         setContentView(R.layout.base);
+        setupAds();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mProgress = (FrameLayout) findViewById(R.id.progress);
         if (mToolbar != null) {
@@ -68,7 +69,13 @@ abstract public class AbstractActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             ViewCompat.setTransitionName(mToolbar, TITLE);
         }
+    }
+
+    protected void setupAds() {
         ad = (AdView) findViewById(R.id.adView);
+        if (isAdFree() && ad != null) {
+            ad.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -108,9 +115,7 @@ abstract public class AbstractActivity extends AppCompatActivity {
         registerReceiver(mReceiver, filter);
         EventBus.getDefault().registerSticky(this);
         if (ad != null) {
-            if (isAdFree()) {
-                ad.setVisibility(View.GONE);
-            } else {
+            if (!isAdFree()) {
                 ad.loadAd(new AdRequest.Builder().build());
             }
         }

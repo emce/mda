@@ -14,6 +14,7 @@ abstract public class AbstractOverflowActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_overflow);
+        setupAds();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mProgress = (FrameLayout) findViewById(R.id.progress);
         if (mToolbar != null) {
