@@ -1,6 +1,7 @@
 package mobi.cwiklinski.mda.util;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -27,6 +28,7 @@ public interface Constant {
     DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd, HH:mm", Locale.getDefault());
     DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", Locale.getDefault());
     DateFormat FULL_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+    NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(new Locale("pl", "PL"));
 
     enum Destination {
         FROM_CRACOW,

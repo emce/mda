@@ -187,8 +187,10 @@ public class TableFragment extends AbstractFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TimeTable timeTable = mTimeTables.get(position);
+        getPreferences().saveTimetable(timeTable);
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(Constant.EXTRA_DETAIL, mTimeTables.get(position).getDetail());
+        intent.putExtra(Constant.EXTRA_DETAIL, timeTable.getDetail());
         startActivity(intent);
     }
 

@@ -14,7 +14,9 @@ public class Stage extends Model {
     public Stage(String destination, String station, DateTime arrival, String price) {
         this.destination = destination;
         this.station = station;
-        this.arrival = arrival.getMillis();
+        if (arrival != null) {
+            this.arrival = arrival.getMillis();
+        }
         this.price = price;
     }
 
@@ -35,11 +37,16 @@ public class Stage extends Model {
     }
 
     public DateTime getArrival() {
-        return new DateTime(arrival);
+        if (arrival != null) {
+            return new DateTime(arrival);
+        }
+        return null;
     }
 
     public void setArrival(DateTime arrival) {
-        this.arrival = arrival.getMillis();
+        if (arrival != null) {
+            this.arrival = arrival.getMillis();
+        }
     }
 
     public String getPrice() {

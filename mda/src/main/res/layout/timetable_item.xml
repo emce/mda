@@ -34,7 +34,7 @@
             android:layout_width="@dimen/fifteen_dips"
             android:layout_height="@dimen/fifteen_dips"
             android:background="@drawable/station_dot"
-            android:layout_marginBottom="@dimen/ten_dips"
+            android:layout_marginBottom="@dimen/seven_dips"
             android:layout_gravity="bottom|center_horizontal" />
 
     </FrameLayout>

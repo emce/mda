@@ -8,9 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import mobi.cwiklinski.mda.BuildConfig;
 import mobi.cwiklinski.mda.R;
 import mobi.cwiklinski.mda.model.TimeTable;
@@ -41,7 +38,7 @@ public class Util {
         sms.append(", ");
         if (timeTable.getPrice() != null) {
             if (timeTable.getPrice() > 0) {
-                sms.append(NumberFormat.getCurrencyInstance(new Locale("pl")).format(timeTable.getPrice()))
+                sms.append(Constant.CURRENCY_FORMAT.format(timeTable.getPrice()))
                     .append(", ");
             }
         }
